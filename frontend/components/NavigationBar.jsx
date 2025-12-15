@@ -5,7 +5,7 @@ function NavigationBar() {
   const navigate = useNavigate();
 
   return (
-    <div className="bg-[#555555] text-[#edebeb] flex justify-between px-5">
+    <div className="h-20 bg-[#555555] text-[#edebeb] flex sticky top-0 z-10 justify-between px-5">
 
       <button onClick={() => {
           navigate("/");
