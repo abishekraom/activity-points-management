@@ -9,34 +9,24 @@ const AuthSuccess = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const handleAuth = async () => {
-            const params = new URLSearchParams(window.location.search);
-            console.log(params);
-            const accessToken = params.get("token");
-            console.log(accessToken);
+        const fetchUser = async () => {
+            try {
+                const res = await axios.get("http://localhost:5000/api/auth/me", {
+                    withCredentials: true
+                });
 
-            if (accessToken) {
-                localStorage.setItem("accessToken", accessToken);
-
-                try {
-                    const res = await axios.get("http://localhost:5000/api/auth/me", {
-                        headers: {
-                            Authorization: `Bearer ${accessToken}`
-                        }
-                    });
-
-                    if (res.data.success) {
-                        setUser(res.data.user);
-                        navigate('/');
-                    }
-                } catch (error) {
-                    console.error("Error fetching user", error);
+                if (res.data.success) {
+                    setUser(res.data.user);
+                    navigate('/');
                 }
+            } catch (error) {
+                console.error("Error fetching user", error);
             }
+
         };
 
-        handleAuth();
-    }, [navigate]);
+        fetchUser();
+    }, [navigate, setUser]);
 
     return (
         <h2>

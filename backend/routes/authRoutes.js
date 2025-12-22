@@ -11,7 +11,11 @@ router.get("/google/callback", passport.authenticate("google", {session: false})
 
     try {
         const token = jwt.sign({id: req.user._id, email: req.user.email}, process.env.SECRET_KEY, {expiresIn: "30d"});
-        res.redirect(`${process.env.CLIENT_URL}/auth-success?token=${token}`);
+
+        res.cookie('token', token, {httpOnly: true, secure: process.env.NODE_ENV === 'production', sameSite: 'lax', maxAge: 30 * 24 * 60 * 60 * 1000})
+
+
+        res.redirect(`${process.env.CLIENT_URL}/auth-success`);
     } catch (error) {
         console.error("Google login error:", error);
         res.redirect(`${process.env.CLIENT_URL}/login`);
@@ -20,6 +24,11 @@ router.get("/google/callback", passport.authenticate("google", {session: false})
 
 router.get("/me", isAuthenticated, (req, res) => {
     res.json({success: true, user: req.user});
+});
+
+router.post("/logout", (req, res) => {
+    res.clearCookie('token');
+    res.json({ success: true, message: "Logged out" });
 });
 
 export default router;

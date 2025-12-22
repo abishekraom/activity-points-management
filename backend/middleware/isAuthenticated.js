@@ -1,50 +1,48 @@
 import jwt from 'jsonwebtoken'
 import User from '../models/User.js';
 
-export const isAuthenticated = async(req, res, next) =>{
+export const isAuthenticated = async (req, res, next) => {
     try {
-        const authHeader = req.headers.authorization;
+        const token = req.cookies.token;
 
-        if(!authHeader || !authHeader.startsWith('Bearer ')){
+        if (!token) {
             return res.status(401).json({
-                success:false,
-                message:'Access token is missing or invalid'
-            })
+                success: false,
+                message: 'Authentication required. Please log in.'
+            });
         }
 
-        const token = authHeader.split(" ")[1]
-
-        jwt.verify(token, process.env.SECRET_KEY, async (err, decoded)=>{
-            if(err){
-                if(err.name === "TokenExpiredError"){
+        jwt.verify(token, process.env.SECRET_KEY, async (err, decoded) => {
+            if (err) {
+                if (err.name === "TokenExpiredError") {
                     return res.status(400).json({
-                        success:false,
-                        message:"Access Token has expired, use refreshtoken to generate again"
+                        success: false,
+                        message: "Access Token has expired, use refreshtoken to generate again"
                     })
                 }
                 return res.status(400).json({
-                    success:false,
-                    message:"Access token is missing or invalid"
+                    success: false,
+                    message: "Access token is missing or invalid"
                 })
             }
-            const {id} = decoded;
+            const { id } = decoded;
 
             const user = await User.findById(id)
-            if(!user){
+            if (!user) {
                 return res.status(404).json({
-                    success:false,
-                    message:"user not found"
+                    success: false,
+                    message: "user not found"
                 })
             }
-            
+
             req.user = user
-            req.userId = user._id  
+            req.userId = user._id
             next()
         })
     } catch (error) {
         return res.status(500).json({
-            success:false,
-            message:error.message
+            success: false,
+            message: error.message
         })
     }
 }
