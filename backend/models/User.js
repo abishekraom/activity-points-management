@@ -17,6 +17,9 @@ const userSchema = new mongoose.Schema({
     avatar: {
         type: String,
     },
+    profilePic: {
+        type: String,
+    },
     isLoggedIn: {
        type: Boolean,
        default: false, 

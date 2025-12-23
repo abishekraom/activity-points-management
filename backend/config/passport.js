@@ -19,10 +19,13 @@ passport.use(new GoogleStrategy({
             googleId: profile.id,
             username: profile.displayName,
             email: profile.emails[0].value,
-            avatar: profile.photos[0].value,
+            profilePic: profile.photos[0].value,
             isLoggedIn: true,
             isVerified: true,
         })
+      } else {
+        user.profilePic = profile.photos[0].value;
+        await user.save;
       }
 
       return cb(null, user);
