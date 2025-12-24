@@ -28,6 +28,8 @@ passport.use(new GoogleStrategy({
         await user.save;
       }
 
+      console.log(user.profilePic);
+
       return cb(null, user);
     } catch (error) {
         return cb(error, null);
