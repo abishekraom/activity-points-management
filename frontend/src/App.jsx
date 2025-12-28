@@ -5,6 +5,7 @@ import About from "../pages/About.jsx";
 import Login from "../pages/Login.jsx";
 import AuthSuccess from "../pages/AuthSuccess.jsx";
 import Profile from "../pages/Profile.jsx";
+import Activities from "../pages/Activities.jsx";
 import ProtectedRoute from '../components/ProtectedRoute';
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
         <Route element={<ProtectedRoute />}>
           <Route path="/" element={<StudentHome />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/activities" element={<Activities />}/>
         </Route>
 
         <Route path="*" element={<Navigate to="/" />} />

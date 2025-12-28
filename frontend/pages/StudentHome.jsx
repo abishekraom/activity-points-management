@@ -1,15 +1,18 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom';
 import ProgressBar from '../components/ProgressBar';
 import ProgressGraph from '../components/ProgressGraph';
 import { getData } from '../context/userContext.jsx';
 
 function StudentHome() {
   const { user, loading } = getData();
+  const navigate = useNavigate();
+
   if (loading) return <div></div>;
 
   return (
     <div className='bg-gray-100 min-h-[calc(100vh-5rem)] py-8'>
-      <div className='bg-white rounded-2xl max-w-6xl mx-auto px-20 py-8'>
+      <div className='bg-white rounded-2xl max-w-6xl mx-auto px-20 py-8 shadow-md'>
         <h1 className='text-3xl text-gray-700'>Your Progress</h1>
         <hr className='border-gray-500'></hr>
         <div className='my-6'>
@@ -24,16 +27,16 @@ function StudentHome() {
             </div>
             <div className="flex items-center gap-2">
               <div className="w-4 h-1 bg-yellow-400 rounded-full"></div>
-              <span className="text-sm font-medium text-gray-500">Pending</span>
+              <span className="text-sm font-medium text-gray-500">Pending confirmation</span>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8 my-8">
+      <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8">
         
         {/* Left Box: Graph (Takes 2 columns) */}
-        <div className="lg:col-span-2 bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
+        <div className="lg:col-span-2 bg-white rounded-2xl p-8 shadow-md">
           <div className='flex justify-between items-center mb-6'>
             <h2 className='text-lg font-bold text-gray-800'>Activity Analytics</h2>
             <span className='text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded'>+12% this week</span>
@@ -44,9 +47,20 @@ function StudentHome() {
         </div>
 
         {/* Right Box: Empty Placeholder (Takes 1 column) */}
-        <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 flex flex-col items-center justify-center text-center">
-          <div className='border-2 border-dashed border-gray-200 rounded-xl w-full h-full flex items-center justify-center'>
-            <p className='text-gray-400 italic'>Additional Content Placeholder</p>
+        <div className="bg-white rounded-2xl p-8 shadow-md flex flex-col items-center justify-center text-center">
+          <div 
+          className="w-full border border-gray-300 hover:bg-gray-200 shadow-md rounded-xl py-2 text-lg my-2"
+          onClick={() => {
+            navigate("/activities");
+          }}
+          >
+            Your activities
+          </div>
+          <div className="w-full border border-gray-300 hover:bg-gray-200 shadow-md rounded-xl py-2 text-lg my-2">
+            Your documents
+          </div>
+          <div className="w-full border border-gray-300 hover:bg-gray-200 shadow-md rounded-xl py-2 text-lg my-2">
+            Your reports
           </div>
         </div>
 
