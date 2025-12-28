@@ -1,15 +1,22 @@
 import React from 'react'
 import ProgressBar from '../components/ProgressBar';
 import ProgressGraph from '../components/ProgressGraph';
+import { getData } from '../context/userContext.jsx';
 
 function StudentHome() {
+  const { user, loading } = getData();
+  if (loading) return <div></div>;
+
   return (
     <div className='bg-gray-100 min-h-[calc(100vh-5rem)] py-8'>
       <div className='bg-white rounded-2xl max-w-6xl mx-auto px-20 py-8'>
         <h1 className='text-3xl text-gray-700'>Your Progress</h1>
         <hr className='border-gray-500'></hr>
         <div className='my-6'>
-          <ProgressBar confirmed={50} pending={50} />
+          <ProgressBar 
+          confirmed={user?.confirmedPoints || 0} 
+          pending={user?.pendingPoints || 0}
+          />
           <div className="flex justify-center gap-8 mt-2">
             <div className="flex items-center gap-2">
               <div className="w-4 h-1 bg-green-500 rounded-full"></div>

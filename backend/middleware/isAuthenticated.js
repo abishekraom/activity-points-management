@@ -12,37 +12,22 @@ export const isAuthenticated = async (req, res, next) => {
             });
         }
 
-        jwt.verify(token, process.env.SECRET_KEY, async (err, decoded) => {
-            if (err) {
-                if (err.name === "TokenExpiredError") {
-                    return res.status(400).json({
-                        success: false,
-                        message: "Access Token has expired, use refreshtoken to generate again"
-                    })
-                }
-                return res.status(400).json({
-                    success: false,
-                    message: "Access token is missing or invalid"
-                })
-            }
-            const { id } = decoded;
+        const decoded = jwt.verify(token, process.env.SECRET_KEY);
 
-            const user = await User.findById(id)
-            if (!user) {
-                return res.status(404).json({
-                    success: false,
-                    message: "user not found"
-                })
-            }
+        const user = await User.findById(decoded.id);
 
-            req.user = user
-            req.userId = user._id
-            next()
-        })
+        if (!user) {
+            return res.status(404).json({ success: false, message: "User not found" });
+        }
+
+        req.user = user;
+        req.userId = user._id;
+        next(); 
+
     } catch (error) {
-        return res.status(500).json({
-            success: false,
-            message: error.message
-        })
+        if (error.name === "TokenExpiredError") {
+            return res.status(401).json({ success: false, message: "Session expired" });
+        }
+        return res.status(401).json({ success: false, message: "Invalid token" });
     }
 }

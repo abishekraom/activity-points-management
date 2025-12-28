@@ -13,6 +13,7 @@ const userSchema = new mongoose.Schema({
     },
     googleId: {
         type: String,
+        unique: true,
     },
     avatar: {
         type: String,
@@ -20,14 +21,18 @@ const userSchema = new mongoose.Schema({
     profilePic: {
         type: String,
     },
-    isLoggedIn: {
-       type: Boolean,
-       default: false, 
-    },
     isVerified: {
        type: Boolean,
        default: false, 
-    }
+    },
+    confirmedPoints: {
+        type: Number,
+        default: 0,
+    },
+    pendingPoints: {
+        type: Number,
+        default: 0,
+    },
 }, {timestamps: true});
 
 const User = mongoose.model("User", userSchema);

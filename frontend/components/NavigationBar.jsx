@@ -8,15 +8,15 @@ function NavigationBar() {
   const navigate = useNavigate();
 
 // Comment the below line while designing frontend
-  //const { user, setUser } = getData();
+  const { user, setUser } = getData();
 
 // Uncomment the below section while working on frontend
 
-  const [user, setUser] = useState({
-  name: "Alex (Mock)",
-  profilePic: "https://placehold.co/40",
-  email: "test@example.com"
-  });
+  // const [user, setUser] = useState({
+  // name: "Alex (Mock)",
+  // profilePic: "https://placehold.co/40",
+  // email: "test@example.com"
+  // });
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
