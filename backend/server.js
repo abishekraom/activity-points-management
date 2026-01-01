@@ -4,7 +4,8 @@ import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import { connectDB } from './config/db.js';
 import { axiosConfig } from './config/axios.js';
-import router from './routes/authRoutes.js';
+import authRouter from './routes/authRoutes.js';
+import eventRouter from './routes/eventRoutes.js';
 import './config/passport.js';
 
 dotenv.config();
@@ -20,8 +21,9 @@ app.use(cors({
 
 app.use(express.json());
 app.use(cookieParser());
-app.use("/api/auth", router );
-app.use("/api/users", router);
+app.use("/api/auth", authRouter );
+app.use("/api/users", authRouter);
+app.use("/api/events", eventRouter);
 
 connectDB();
 axiosConfig();

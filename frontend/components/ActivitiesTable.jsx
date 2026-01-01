@@ -2,25 +2,11 @@ import React from "react";
 import { useState, useEffect } from 'react';
 import { Trash2, ExternalLink, FileText, Plus } from 'lucide-react'
 
-function ActivitiesTable() {
-    const [activities, setActivities] = useState([]);
-    const [loading, setLoading] = useState(true);
+function ActivitiesTable({ activities }) {
 
-    useEffect(() => {
-
-        const mockData = [
-            { _id: '1', eventName: 'React Workshop', date: '2025-12-20', points: 50, status: 'confirmed', certificateUrl: '#' },
-            { _id: '2', eventName: 'Hackathon', date: '2025-12-29', points: 100, status: 'pending', reportUrl: '#' },
-            { _id: '3', eventName: 'TEDX talk', date: '2025-11-29', points: 100, status: 'pending', reportUrl: '#' },
-            { _id: '4', eventName: 'Blood donation camp', date: '2024-12-29', points: 100, status: 'pending', reportUrl: '#' },
-            { _id: '5', eventName: 'Hackathon', date: '2023-05-29', points: 100, status: 'pending', reportUrl: '#' },
-        ];
-
-        const sorted = mockData.sort((a, b) => new Date(b.date) - new Date(a.date));
-        setActivities(sorted);
-        setLoading(false);
-    }, []);
-
+    if (activities.length === 0) {
+        return <p className="text-center text-gray-500 py-10">No activities recorded yet.</p>;
+    }
     return (
     <div>
         
@@ -60,12 +46,7 @@ function ActivitiesTable() {
                 ))}
             </tbody>
         </table>
-        <button 
-        className="flex items-center gap-2 border-2 border-gray-200 bg-gray-100 hover:bg-gray-200 text-gray-800 px-4 py-2 mt-4 mx-auto rounded-lg transition"
         
-        >
-            <Plus size={18} /> Add Activity
-        </button>
     </div>
     )
 }

@@ -19,6 +19,7 @@ function StudentHome() {
           <ProgressBar 
           confirmed={user?.confirmedPoints || 0} 
           pending={user?.pendingPoints || 0}
+
           />
           <div className="flex justify-center gap-8 mt-2">
             <div className="flex items-center gap-2">

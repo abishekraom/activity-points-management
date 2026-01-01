@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const activitySchema = new mongoose.Schema({
+const eventSchema = new mongoose.Schema({
     eventName: {
         type: String,
         required: true,
@@ -16,21 +16,16 @@ const activitySchema = new mongoose.Schema({
         min: 0,
         default: 0,
     },
-    status: {
+    posterUrl: {
         type: String,
-        required: true,
-        enum: ['confirmed', 'pending', 'rejected'],
+        trim: true
     },
-    certificateUrl: {
-        type: String,
-        trim: true,
-    },
-    reportUrl: {
+    registrationUrl: {
         type: String,
         trim: true,
     }
-});
+})
 
-const Activity = mongoose.model('Activity', activitySchema);
+const Event = mongoose.model('Event', eventSchema);
 
-export default Activity;
+export default Event;
