@@ -15,6 +15,7 @@ const activitySchema = new mongoose.Schema({
         type: Number,
         min: 0,
         default: 0,
+        required:true,
     },
     status: {
         type: String,

@@ -26,13 +26,12 @@ router.get('/user-activities', isAuthenticated, async (req, res) => {
 
 router.post('/add', isAuthenticated, async (req, res) => {
     try {
-        const { eventId } = req.body;
-        const eventTemplate = await Event.findById(eventId);
+        const { eventName, date, points } = req.body;
 
         const newActivity = new Activity({
-            eventName: eventTemplate.eventName,
-            date: eventTemplate.date,
-            points: eventTemplate.points,
+            eventName,
+            date: new Date(date),
+            points: Number(points),
             status: 'pending'
         });
 
@@ -41,8 +40,10 @@ router.post('/add', isAuthenticated, async (req, res) => {
         await User.findByIdAndUpdate(req.user._id, {
             $push: { activities: savedActivity._id }
         });
+
         res.status(201).json(savedActivity);
     } catch (error) {
+        console.error("Add Activity Error:", error);
         res.status(500).json({ message: "Failed to add activity" });
     }
 });

@@ -11,7 +11,8 @@ function Activities () {
     const [activities, setActivities] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [loading, setLoading] = useState(false);
-
+    const [formData, setFormData] = useState({ eventName: "", date: "", points: 0 });
+    const [showSuggestions, setShowSuggestions] = useState(false);
     const { allEvents } = useEventList();
 
     useEffect(() => {
@@ -35,22 +36,54 @@ function Activities () {
         fetchUserActivities();
     }, []);
 
-    const handleAddSelectedEvent = async (eventId) => {
-        try {
-            const res = await axios.post("http://localhost:5000/api/events/add", 
-                { eventId }, 
-                { withCredentials: true }
-            );
+    const filteredEvents = allEvents.sort((a, b) => new Date(b.date) - new Date(a.date)).filter(event =>
+        event.eventName.toLowerCase().includes(formData.eventName.toLowerCase())
+    );
 
-            setActivities(prev => [res.data, ...prev]);
-            setIsModalOpen(false);
-        } catch (error) {
-            console.error("Error adding activity:", error);
-            alert("Failed to add activity. Please try again.");
+    const selectSuggestion = (event) => {
+        setFormData({
+            eventName: event.eventName,
+            date: new Date(event.date).toISOString().split('T')[0],
+            points: event.points,
+        });
+        setShowSuggestions(false);
+    }
+
+    const handleDropdownChange = (eventId) => {
+        const selected = allEvents.find(e => e._id === eventId);
+        if(selected) {
+            setFormData({
+            eventName: selected.eventName,
+            date: new Date(selected.date).toISOString().split('T')[0], 
+            points: selected.points
+        });
         }
     }
 
+    const handleSubmit = async () => {
+        if (!formData.eventName || !formData.date || !formData.points) {
+            console.log("Fill in all mandatory fields!")
+            return;
+        }
 
+        try {
+            setLoading(true);
+            const res = await axios.post("http://localhost:5000/api/events/add", 
+                formData, 
+                { withCredentials: true }
+            );
+
+            setActivities(prev => [res.data, ...prev].sort((a, b) => new Date(b.date) - new Date(a.date)));
+            
+            setFormData({ eventName: "", date: "", points: 0 });
+            setIsModalOpen(false);
+        } catch (error) {
+            console.error("Error adding activity:", error);
+            alert("Failed to add activity. Check console for details.");
+        } finally {
+            setLoading(false);
+        }
+    }
     return (
     <div className="bg-gray-100 min-h-[calc(100vh-5rem)] py-8">
         <div className="bg-white rounded-2xl px-20 py-8 max-w-6xl mx-auto shadow-md">
@@ -80,24 +113,84 @@ function Activities () {
 
                 <div className="relative bg-white rounded-2xl shadow-lg w-6xl max-x-lg p-8 z-10 border border-gray-200">
                     <h2 className="text-2xl font-bold mb-6 text-gray-800">Add New Activity</h2>
+                    <div>
+                        <div className="my-5">
+                            <label className="my-1 text-sm text-gray-600">Select an event from the list or type the name of the activity</label>
+                            <br />
+                            <input
+                                type="text"
+                                placeholder="Activity Name"
+                                className="w-lg p-3 border border-gray-200 rounded-xl focus:border-blue-500 outline-none transition"
+                                value={formData.eventName}
+                                onChange={(e) => setFormData({...formData, eventName: e.target.value})}
+                                onFocus={() => setShowSuggestions(true)}
+                                onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
+                            />
 
-                    <div className="space-y-1">
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Select Event from Catalogue</label>
-                            <select
-                                className="w-xl p-3 border-3 border-gray-100 rounded-xl focus:border-blue-500 outline-none transition"
-                                defaultValue=""
-                                onChange={(e) => {
-                                    handleAddSelectedEvent(e.target.value);
-                                }}
+                            {showSuggestions && filteredEvents.length > 0 && (
+                                <div className="absolute z-20 w-lg mt-1 bg-white border border-gray-200 rounded-xl shadow-xl overflow-hidden">
+                                    <div className="max-h-60 overflow-y-auto">
+                                        {filteredEvents.map((event) => (
+                                            <button
+                                                key={event._id}
+                                                type="button"
+                                                onMouseDown={() => selectSuggestion(event)}
+                                                className="w-full px-5 py-3 text-left text-gray-800 hover:bg-gray-100 font-medium transition-colors border-b border-gray-50 last:border-none flex justify-between items-center"
+                                            >
+                                                <span>{event.eventName}</span>
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-5">
+                            <div>
+                                <label className="my-1 text-sm text-gray-600">Date</label>
+                                <input 
+                                    type="date"
+                                    placeholder="Date"
+                                    className="w-lg p-3 border border-gray-200 rounded-xl focus:border-blue-500 outline-none transition"
+                                    value={formData.date}
+                                    onChange={(e) => setFormData({...formData, date: e.target.value})}
+                                />
+                            </div>
+
+                            <div>
+                                <label className="my-1 text-sm text-gray-600">Points</label>
+                                <input 
+                                    type="number"
+                                    placeholder="Points"
+                                    className="w-lg p-3 border border-gray-200 rounded-xl focus:border-blue-500 outline-none transition"
+                                    value={formData.points}
+                                    onChange={(e) => setFormData({...formData, points: e.target.value})}
+                                />
+                            </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-5">
+                            <div>
+                                <label className="my-1 text-sm text-gray-600">Certificate</label>
+                                <button className="w-lg flex justify-center items-center p-3 border-2 border-dashed border-gray-300 rounded-xl text-gray-500 hover:bg-gray-50 transition">
+                                    <Plus size={18} /> Upload Certificate
+                                </button>
+                            </div>
+
+                            <div>
+                                <label className="my-1 text-sm text-gray-600">Report</label>
+                                <button className="w-lg flex justify-center items-center p-3 border-2 border-dashed border-gray-300 rounded-xl text-gray-500 hover:bg-gray-50 transition">
+                                    <Plus size={18} /> Upload Report
+                                </button>
+                            </div>
+                        </div>
+                        <div className="w-xs mt-5 pt-5">
+                            <button 
+                                className="w-full flex items-center justify-center-safe gap-2 border-2 border-gray-300 bg-white hover:bg-gray-50 text-gray-500 px-4 py-2 rounded-lg transition"
+                                onClick={handleSubmit}
                             >
-                                <option value="" disabled>-- Select an Event --</option>
-                                {allEvents.map((event) => (
-                                    <option key={event._id} value={event._id}>
-                                        {event.eventName} ({event.points} pts)
-                                    </option>
-                                ))}
-                            </select>
+                                <Plus size={18} /> Add Activity
+                            </button>
                         </div>
                     </div>
                 </div>
