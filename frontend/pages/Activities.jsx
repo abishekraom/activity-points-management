@@ -84,6 +84,26 @@ function Activities () {
             setLoading(false);
         }
     }
+
+    const handleDelete = async (activityId) => {
+        if (!window.confirm("Are you sure you want to delete this activity?")) return;
+
+        try {
+            setLoading(true);
+            await axios.delete(`http://localhost:5000/api/events/delete/${activityId}`, {
+                withCredentials: true
+            });
+
+            // Update local state to remove the deleted activity from the UI
+            setActivities(prev => prev.filter(act => act._id !== activityId));
+        } catch (error) {
+            console.error("Error deleting activity:", error);
+            alert("Failed to delete activity.");
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return (
     <div className="bg-gray-100 min-h-[calc(100vh-5rem)] py-8">
         <div className="bg-white rounded-2xl px-20 py-8 max-w-6xl mx-auto shadow-md">
@@ -93,7 +113,7 @@ function Activities () {
             {loading ? (
                     <div className="text-center py-10 text-gray-500">Loading activities...</div>
                 ) : (
-                    <ActivitiesTable activities={activities} />
+                    <ActivitiesTable activities={activities} onDelete={handleDelete}/>
                 )}
 
             <button 

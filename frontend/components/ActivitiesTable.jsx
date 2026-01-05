@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from 'react';
 import { Trash2, ExternalLink, FileText, Plus } from 'lucide-react'
 
-function ActivitiesTable({ activities }) {
+function ActivitiesTable({ activities, onDelete }) {
 
     if (activities.length === 0) {
         return <p className="text-center text-gray-500 py-10">No activities recorded yet.</p>;
@@ -19,6 +19,7 @@ function ActivitiesTable({ activities }) {
                     <th className="px-6 py-4">Certificate</th>
                     <th className="px-6 py-4">Report</th>
                     <th className="px-6 py-4">Status</th>
+                    <th className="px-6 py-4"></th>
                 </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
@@ -41,6 +42,15 @@ function ActivitiesTable({ activities }) {
                         </td>
                         <td  className="px-6 py-4">
                             {activity.status.toUpperCase()}
+                        </td>
+                        <td className="px-2 py-4">
+                            <button 
+                                    onClick={() => onDelete(activity._id)}
+                                    className="text-gray-600 hover:text-red-500 transition p-2"
+                                    title="Delete Activity"
+                                >
+                                <Trash2 size={18} />
+                            </button>
                         </td>
                     </tr>
                 ))}

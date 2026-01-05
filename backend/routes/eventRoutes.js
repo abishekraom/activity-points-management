@@ -48,4 +48,21 @@ router.post('/add', isAuthenticated, async (req, res) => {
     }
 });
 
+router.delete('/delete/:id', isAuthenticated, async (req, res) => {
+    try {
+        const activityId = req.params.id;
+
+        await Activity.findByIdAndDelete(activityId);
+
+        await User.findByIdAndUpdate(req.user._id, {
+            $pull: {activities: activityId}
+        });
+
+        res.status(200).json({ message: "Activity deleted successfully" });
+    } catch (error) {
+        console.error("Delete Error:", error);
+        res.status(500).json({ message: "Failed to delete activity" });
+    }
+})
+
 export default router;
