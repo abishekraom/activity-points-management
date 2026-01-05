@@ -94,7 +94,6 @@ function Activities () {
                 withCredentials: true
             });
 
-            // Update local state to remove the deleted activity from the UI
             setActivities(prev => prev.filter(act => act._id !== activityId));
         } catch (error) {
             console.error("Error deleting activity:", error);
@@ -204,9 +203,9 @@ function Activities () {
                                 </button>
                             </div>
                         </div>
-                        <div className="w-xs mt-5 pt-5">
+                        <div className="w-xl mx-auto mt-5 pt-5">
                             <button 
-                                className="w-full flex items-center justify-center-safe gap-2 border-2 border-gray-300 bg-white hover:bg-gray-50 text-gray-500 px-4 py-2 rounded-lg transition"
+                                className="w-full flex items-center justify-center-safe gap-2 border-2 border-gray-300 bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition shadow-lg"
                                 onClick={handleSubmit}
                             >
                                 <Plus size={18} /> Add Activity

@@ -1,8 +1,9 @@
 import express from 'express';
+import User from '../models/User.js';
 import Event from '../models/Event.js';
 import Activity from '../models/Activity.js';
 import { isAuthenticated } from '../middleware/isAuthenticated.js';
-import User from '../models/User.js';
+import { syncUserPoints } from '../services/pointsService.js';
 
 const router = express.Router();
 
@@ -40,6 +41,7 @@ router.post('/add', isAuthenticated, async (req, res) => {
         await User.findByIdAndUpdate(req.user._id, {
             $push: { activities: savedActivity._id }
         });
+        await syncUserPoints(req.user._id);
 
         res.status(201).json(savedActivity);
     } catch (error) {
@@ -57,6 +59,7 @@ router.delete('/delete/:id', isAuthenticated, async (req, res) => {
         await User.findByIdAndUpdate(req.user._id, {
             $pull: {activities: activityId}
         });
+        await syncUserPoints(req.user._id);
 
         res.status(200).json({ message: "Activity deleted successfully" });
     } catch (error) {
