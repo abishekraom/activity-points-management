@@ -2,6 +2,7 @@ import express from 'express';
 import passport from 'passport';
 import jwt from 'jsonwebtoken';
 import { isAuthenticated } from '../middleware/isAuthenticated.js';
+import User from '../models/User.js';
 
 const router = express.Router();
 
@@ -34,6 +35,21 @@ router.post("/logout", (req, res) => {
         path: '/'
     });
     res.json({ success: true, message: "Logged out" });
+});
+
+router.put('/update', isAuthenticated, async (req, res) => {
+  try {
+    const { name, usn, year, branch, counsellor } = req.body;
+    // Assuming your auth middleware puts user ID in req.user
+    const updatedUser = await User.findByIdAndUpdate(
+      req.user._id, 
+      { name, usn, year, branch, counsellor },
+      { new: true } // Returns the updated document
+    );
+    res.json(updatedUser);
+  } catch (err) {
+    res.status(500).send("Server Error");
+  }
 });
 
 export default router;

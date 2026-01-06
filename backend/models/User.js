@@ -37,8 +37,35 @@ const userSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Activity",
     }],
+    name: {
+        type: String,
+    },
+    usn: {
+        type: String,
+    },
+    year: {
+        type: String,
+    },
+    branch: {
+        type: String,
+    },
+    counsellor: {
+        type: String,
+    },
 }, {timestamps: true});
 
 const User = mongoose.model("User", userSchema);
 
 export default User;
+
+const UserSchema = new mongoose.Schema({
+    googleId: String,
+    name: String,
+    email: String,
+    picture: String,
+    usn: String,
+    year: String,
+    branch: String,
+    counsellor: String,
+    points: { type: Number, default: 0 }
+});
