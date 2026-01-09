@@ -4,9 +4,12 @@ import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import { connectDB } from './config/db.js';
 import { axiosConfig } from './config/axios.js';
+import './config/passport.js';
 import authRouter from './routes/authRoutes.js';
 import eventRouter from './routes/eventRoutes.js';
-import './config/passport.js';
+import counselorRouter from './routes/counselorRoutes.js';
+import { isAuthenticated } from './middleware/isAuthenticated.js';
+
 
 dotenv.config();
 
@@ -24,6 +27,7 @@ app.use(cookieParser());
 app.use("/api/auth", authRouter );
 app.use("/api/users", authRouter);
 app.use("/api/events", eventRouter);
+app.use("/api/counselor", isAuthenticated, counselorRouter);
 
 connectDB();
 axiosConfig();

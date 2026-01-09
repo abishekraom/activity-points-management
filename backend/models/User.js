@@ -21,10 +21,34 @@ const userSchema = new mongoose.Schema({
     profilePic: {
         type: String,
     },
+    role: {
+        type: String,
+        enum: ['student', 'counselor', 'admin'],
+        default: 'student'
+    },
     isVerified: {
        type: Boolean,
        default: false, 
     },
+
+    // For students
+    usn: {
+        type: String,
+    },
+    currentYear: {
+        type: Number,
+    },
+    branch: {
+        type: String,
+    },
+    counselorEmail: {
+        type: String,
+    },
+
+    // For Counselors
+    managedStudents: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+
+    // Points for Students
     confirmedPoints: {
         type: Number,
         default: 0,
@@ -37,21 +61,6 @@ const userSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Activity",
     }],
-    name: {
-        type: String,
-    },
-    usn: {
-        type: String,
-    },
-    year: {
-        type: String,
-    },
-    branch: {
-        type: String,
-    },
-    counsellor: {
-        type: String,
-    },
 }, {timestamps: true});
 
 const User = mongoose.model("User", userSchema);
