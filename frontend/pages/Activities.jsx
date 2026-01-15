@@ -11,7 +11,13 @@ function Activities () {
     const [activities, setActivities] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [formData, setFormData] = useState({ eventName: "", date: "", points: 0 });
+    const [formData, setFormData] = useState({
+        eventName: "",
+        date: "", 
+        points: 0 ,
+        certificateUrl: "",
+        reportUrl: "",
+    });
     const [showSuggestions, setShowSuggestions] = useState(false);
     const { allEvents } = useEventList();
 
@@ -45,24 +51,15 @@ function Activities () {
             eventName: event.eventName,
             date: new Date(event.date).toISOString().split('T')[0],
             points: event.points,
+            certificateUrl: event.certificateUrl || "", 
+            reportUrl: event.reportUrl || ""
         });
         setShowSuggestions(false);
     }
 
-    const handleDropdownChange = (eventId) => {
-        const selected = allEvents.find(e => e._id === eventId);
-        if(selected) {
-            setFormData({
-            eventName: selected.eventName,
-            date: new Date(selected.date).toISOString().split('T')[0], 
-            points: selected.points
-        });
-        }
-    }
-
     const handleSubmit = async () => {
-        if (!formData.eventName || !formData.date || !formData.points) {
-            console.log("Fill in all mandatory fields!")
+        if (!formData.eventName || !formData.date || !formData.points || !formData.certificateUrl || !formData.reportUrl) {
+            console.log("Fill in all fields!")
             return;
         }
 
@@ -191,16 +188,25 @@ function Activities () {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-5">
                             <div>
                                 <label className="my-1 text-sm text-gray-600">Certificate</label>
-                                <button className="w-lg flex justify-center items-center p-3 border-2 border-dashed border-gray-300 rounded-xl text-gray-500 hover:bg-gray-50 transition">
-                                    <Plus size={18} /> Upload Certificate
-                                </button>
+                                <input 
+                                    type="url"
+                                    placeholder="Google Drive link for certificate"
+                                    className="w-lg p-3 border border-gray-200 rounded-xl focus:border-blue-500 outline-none transition"
+                                    value={formData.certificateUrl}
+                                    onChange={(e) => setFormData({...formData, certificateUrl: e.target.value})}
+                                    />
                             </div>
 
                             <div>
                                 <label className="my-1 text-sm text-gray-600">Report</label>
-                                <button className="w-lg flex justify-center items-center p-3 border-2 border-dashed border-gray-300 rounded-xl text-gray-500 hover:bg-gray-50 transition">
-                                    <Plus size={18} /> Upload Report
-                                </button>
+                                <input 
+                                    type="url"
+                                    placeholder="Google Drive link for report"
+                                    className="w-lg p-3 border border-gray-200 rounded-xl focus:border-blue-500 outline-none transition" 
+                                    value={formData.reportUrl}
+                                    onChange={(e) => setFormData({...formData, reportUrl: e.target.value})}
+                                />
+                                
                             </div>
                         </div>
                         <div className="w-xl mx-auto mt-5 pt-5">
@@ -210,6 +216,9 @@ function Activities () {
                             >
                                 <Plus size={18} /> Add Activity
                             </button>
+                        </div>
+                        <div className="text-center pt-4">
+                            Note: Ensure that the permissions of the files in your Google Drive are set to "Anyone with the link".
                         </div>
                     </div>
                 </div>

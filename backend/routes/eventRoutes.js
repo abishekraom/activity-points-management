@@ -27,13 +27,15 @@ router.get('/user-activities', isAuthenticated, async (req, res) => {
 
 router.post('/add', isAuthenticated, async (req, res) => {
     try {
-        const { eventName, date, points } = req.body;
+        const { eventName, date, points, certificateUrl, reportUrl } = req.body;
 
         const newActivity = new Activity({
             eventName,
             date: new Date(date),
             points: Number(points),
-            status: 'pending'
+            status: 'pending',
+            certificateUrl,
+            reportUrl,
         });
 
         const savedActivity = await newActivity.save();

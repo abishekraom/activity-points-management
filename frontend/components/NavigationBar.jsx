@@ -7,7 +7,7 @@ import axios from 'axios';
 function NavigationBar() {
   const navigate = useNavigate();
 
-// Comment the below line while designing frontend
+// Comment the below line while designing frontend, if necessary only
   const { user, setUser } = getData();
 
 // Uncomment the below section while working on frontend
@@ -54,11 +54,22 @@ function NavigationBar() {
 
       <div className="flex">
         <button onClick={() => {
+            navigate("/");
+          }
+        }
+        className="px-5 text-xl hover:bg-[#474747] transition duration-300 flex items-center"
+        >
+          Home
+        </button>
+
+        <button onClick={() => {
             navigate("/about");
           }
         }
         className="px-5 text-xl hover:bg-[#474747] transition duration-300 flex items-center"
-        >About</button>
+        >
+          About
+        </button>
 
         { 
           // Replace 'user' with 'true' while designing the frontend.

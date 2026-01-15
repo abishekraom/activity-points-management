@@ -35,10 +35,22 @@ function ActivitiesTable({ activities, onDelete }) {
                             {activity.points}
                         </td>
                         <td  className="px-6 py-4">
-                            {activity.certificateUrl}
+                            <a 
+                                href={activity.certificateUrl} 
+                                className="hover:text-blue-500 underline"
+                                target="_blank"
+                                >
+                                Click here
+                            </a>
                         </td>
                         <td  className="px-6 py-4">
-                            {activity.reportUrl}
+                            <a 
+                                href={activity.reportUrl} 
+                                className="hover:text-blue-500 underline"
+                                target="_blank"
+                                >
+                                Click here
+                            </a>
                         </td>
                         <td  className="px-6 py-4">
                             {activity.status.toUpperCase()}

@@ -42,22 +42,22 @@ function Profile() {
                                 <label className="block text-sm font-semibold text-gray-400 tracking-wider mb-1">
                                     USN
                                 </label>
-                                <p className="py-2 px-4 text-xl w-md font-medium text-gray-800 border-2 border-gray-300 rounded-xl">{user.usn || "1RV24CI092"}</p>
+                                <p className="py-2 px-4 text-xl w-md font-medium text-gray-800 border-2 border-gray-300 rounded-xl">{user.usn}</p>
                             </div>
                         </div>
 
-                        <div className="py-2 grid grid-cols-2 gap-6">  
+                        <div className="py-2 grid grid-cols-2 gap-6">
                             <div>
                                 <label className="block text-sm font-semibold text-gray-400 tracking-wider mb-1">
                                     Branch
                                 </label>
-                                <p className="py-2 px-4 text-xl w-md font-medium text-gray-800 border-2 border-gray-300 rounded-xl">{user.branch || "CI"}</p>
+                                <p className="py-2 px-4 text-xl w-md font-medium text-gray-800 border-2 border-gray-300 rounded-xl">{user.branch}</p>
                             </div>
                             <div>
                                 <label className="block text-sm font-semibold text-gray-400 tracking-wider mb-1">
                                     Current Year
                                 </label>
-                                <p className="py-2 px-4 text-xl w-md font-medium text-gray-800 border-2 border-gray-300 rounded-xl">{user.currentYear || 2}</p>
+                                <p className="py-2 px-4 text-xl w-md font-medium text-gray-800 border-2 border-gray-300 rounded-xl">{user.currentYear}</p>
                             </div>
                         </div>
 
@@ -72,7 +72,7 @@ function Profile() {
                                 <label className="block text-sm font-semibold text-gray-400 tracking-wider mb-1">
                                     Faculty Counselor
                                 </label>
-                                <p className="py-2 px-4 text-xl w-md font-medium text-gray-800 border-2 border-gray-300 rounded-xl">{user.counselorEmail || "swarnampatra@rvce.edu.in"}</p>
+                                <p className="py-2 px-4 text-xl w-md font-medium text-gray-800 border-2 border-gray-300 rounded-xl">{user.counselorEmail}</p>
                             </div>
                         </div>
 
