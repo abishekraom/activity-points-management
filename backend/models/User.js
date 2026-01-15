@@ -66,15 +66,3 @@ const userSchema = new mongoose.Schema({
 const User = mongoose.model("User", userSchema);
 
 export default User;
-
-const UserSchema = new mongoose.Schema({
-    googleId: String,
-    name: String,
-    email: String,
-    picture: String,
-    usn: String,
-    year: String,
-    branch: String,
-    counsellor: String,
-    points: { type: Number, default: 0 }
-});
