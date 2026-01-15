@@ -20,6 +20,7 @@ function Activities () {
     });
     const [showSuggestions, setShowSuggestions] = useState(false);
     const { allEvents } = useEventList();
+    const [error, setError] = useState("");
 
     useEffect(() => {
 
@@ -58,8 +59,10 @@ function Activities () {
     }
 
     const handleSubmit = async () => {
+        setError("");
+
         if (!formData.eventName || !formData.date || !formData.points || !formData.certificateUrl || !formData.reportUrl) {
-            console.log("Fill in all fields!")
+            setError("All fields are mandatory.");
             return;
         }
 
@@ -76,7 +79,7 @@ function Activities () {
             setIsModalOpen(false);
         } catch (error) {
             console.error("Error adding activity:", error);
-            alert("Failed to add activity. Check console for details.");
+            setError("Failed to add activity. Please try again.");
         } finally {
             setLoading(false);
         }
@@ -209,6 +212,11 @@ function Activities () {
                                 
                             </div>
                         </div>
+                        {error && (
+                            <div className="bg-red-100 p-3 mb-4">
+                                <p className="text-red-700 text-sm font-medium">{error}</p>
+                            </div>
+                        )}
                         <div className="w-xl mx-auto mt-5 pt-5">
                             <button 
                                 className="w-full flex items-center justify-center-safe gap-2 border-2 border-gray-300 bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition shadow-lg"
