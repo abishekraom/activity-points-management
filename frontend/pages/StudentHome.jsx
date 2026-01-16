@@ -8,6 +8,8 @@ function StudentHome() {
   const { user, loading } = getData();
   const navigate = useNavigate();
 
+  const admissionYear = user?.usn ? 2000 + parseInt(user.usn.substring(3, 5)) : 2024;
+
   if (loading) return <div></div>;
 
   return (
@@ -37,13 +39,12 @@ function StudentHome() {
       <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8">
 
         {/* Left Box: Graph (Takes 2 columns) */}
-        <div className="lg:col-span-2 bg-white rounded-2xl p-8 shadow-md">
-          <div className='flex justify-between items-center mb-6'>
+        <div className="lg:col-span-2 bg-white rounded-2xl px-8 pt-2 shadow-md">
+          <div className='flex justify-between items-center'>
             <h2 className='text-lg font-bold text-gray-800'>Activity Analytics</h2>
-            <span className='text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded'>+12% this week</span>
           </div>
           <div className='h-[250px]'>
-            <ProgressGraph />
+            <ProgressGraph activities={user.activities} admissionYear={admissionYear} />
           </div>
         </div>
 
