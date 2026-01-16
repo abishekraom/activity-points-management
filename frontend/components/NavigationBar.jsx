@@ -7,10 +7,18 @@ import axios from 'axios';
 function NavigationBar() {
   const navigate = useNavigate();
 
-// Comment the below line while designing frontend, if necessary only
-  const { user, setUser } = getData();
+  // Comment the below line while designing frontend, if necessary only
+  const { user, setUser, isAdmin } = getData();
 
-// Uncomment the below section while working on frontend
+  const handleHomeClick = () => {
+    if (isAdmin) {
+      navigate("/admin");
+    } else {
+      navigate("/");
+    }
+  };
+
+  // Uncomment the below section while working on frontend
 
   // const [user, setUser] = useState({
   // name: "Alex (Mock)",
@@ -45,33 +53,27 @@ function NavigationBar() {
   return (
     <div className="h-20 bg-[#555555] text-[#edebeb] flex sticky top-0 z-10 justify-between px-5">
 
-      <button onClick={() => {
-          navigate("/");
-        }
-      }
-      className="text-3xl py-3"
+      <button onClick={handleHomeClick}
+        className="text-3xl py-3"
       >Activity Points Tracker</button>
 
       <div className="flex">
-        <button onClick={() => {
-            navigate("/");
-          }
-        }
-        className="px-5 text-xl hover:bg-[#474747] transition duration-300 flex items-center"
+        <button onClick={handleHomeClick}
+          className="px-5 text-xl hover:bg-[#474747] transition duration-300 flex items-center"
         >
           Home
         </button>
 
         <button onClick={() => {
-            navigate("/about");
-          }
+          navigate("/about");
         }
-        className="px-5 text-xl hover:bg-[#474747] transition duration-300 flex items-center"
+        }
+          className="px-5 text-xl hover:bg-[#474747] transition duration-300 flex items-center"
         >
           About
         </button>
 
-        { 
+        {
           // Replace 'user' with 'true' while designing the frontend.
           user ? (
             <div className="relative flex" ref={dropdownRef}>
@@ -79,33 +81,45 @@ function NavigationBar() {
                 onClick={() => setDropdownOpen(!dropdownOpen)}
                 className="px-5 text-xl hover:bg-[#474747] transition duration-300 flex items-center"
               >
-                <img 
-                  src={user.profilePic} 
-                  alt="Profile" 
+                <img
+                  src={user.profilePic}
+                  alt="Profile"
                   className="w-10 h-10 rounded-full border-2 border-[#edebeb]"
                 />
               </button>
 
               {dropdownOpen && (
-              <div className="absolute right-0 min-w-60 top-20 text-xl text-gray-700 bg-white shadow-lg transform origin-top transition-all">
-                <div className="px-4 py-2 hover:bg-gray-100"
-                onClick={() => navigate("/profile")}
-                >
-                  Profile
-                </div>
-                <div className="px-4 py-2 hover:bg-gray-100"
-                onClick={handleLogout}>
-                  Logout
-                </div>
-              </div>)}
+                <div className="absolute right-0 min-w-60 top-20 text-xl text-gray-700 bg-white shadow-lg transform origin-top transition-all">
+                  {isAdmin && (
+                    <div className="px-4 py-2 hover:bg-gray-100 font-bold text-blue-600 border-b cursor-pointer"
+                      onClick={() => {
+                        navigate("/admin");
+                        setDropdownOpen(false);
+                      }}>
+                      Admin Panel
+                    </div>
+                  )}
+                  <div className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                    onClick={() => {
+                      navigate("/profile");
+                      setDropdownOpen(false);
+                    }}
+                  >
+                    Profile
+                  </div>
+                  <div className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                    onClick={handleLogout}>
+                    Logout
+                  </div>
+                </div>)}
             </div>
           ) : (
-          <button onClick={() => {
+            <button onClick={() => {
               navigate("/login");
             }
-          }
-          className="px-5 text-xl hover:bg-[#474747] transition duration-300 flex items-center"
-          >Login</button>
+            }
+              className="px-5 text-xl hover:bg-[#474747] transition duration-300 flex items-center"
+            >Login</button>
           )
         }
       </div>

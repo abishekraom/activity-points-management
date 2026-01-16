@@ -7,24 +7,32 @@ import AuthSuccess from "../pages/AuthSuccess.jsx";
 import Profile from "../pages/Profile.jsx";
 import Activities from "../pages/Activities.jsx";
 import ProtectedRoute from '../components/ProtectedRoute';
+import AdminDashboard from "../components/AdminDashboard.jsx";
 
 function App() {
   return (
     <>
       <NavigationBar />
       <Routes>
-        {/*Public Routes*/}
+        {/* Public Routes */}
         <Route path="/about" element={<About />} />
         <Route path="/login" element={<Login />} />
         <Route path="/auth-success" element={<AuthSuccess />} />
 
-        {/*Protected Routes*/}
+        {/* General Protected Routes (Students & Admins) */}
         <Route element={<ProtectedRoute />}>
           <Route path="/" element={<StudentHome />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/activities" element={<Activities />}/>
         </Route>
 
+        {/* Admin Only Protected Routes */}
+        <Route element={<ProtectedRoute adminOnly={true} />}>
+          <Route path="/admin" element={<AdminDashboard />} />
+          {/* Add more admin routes here as you build them, e.g., /admin/reports */}
+        </Route>
+
+        {/* Catch-all Redirect */}
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </>
