@@ -7,7 +7,7 @@ function ProgressBar ({ confirmed = 0, pending = 0, total = 100 }) {
     const remainingWidth = ((total - pending - confirmed) / total) * 100
 
     return (
-    <div className='w-full mx-auto p-4'>
+    <div className='w-full mx-auto px-4'>
         <div className="h-16 flex items-center bg-white px-1 relative">
         
         <div 

@@ -1,14 +1,15 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import NavigationBar from "../components/NavigationBar.jsx"
-import StudentHome from "../pages/StudentHome.jsx";
-import AdminHome from "../pages/AdminHome.jsx";
-import About from "../pages/About.jsx";
-import Login from "../pages/Login.jsx";
-import AuthSuccess from "../pages/AuthSuccess.jsx";
-import Profile from "../pages/Profile.jsx";
-import Activities from "../pages/Activities.jsx";
-import StudentsList from "../pages/StudentsList.jsx";
 import ProtectedRoute from '../components/ProtectedRoute';
+import About from "../pages/About.jsx";
+import Activities from "../pages/Activities.jsx";
+import AdminHome from "../pages/AdminHome.jsx";
+import AuthSuccess from "../pages/AuthSuccess.jsx";
+import Login from "../pages/Login.jsx";
+import Profile from "../pages/Profile.jsx";
+import StudentDetails from "../pages/StudentDetails.jsx";
+import StudentHome from "../pages/StudentHome.jsx";
+import StudentsList from "../pages/StudentsList.jsx";
 
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
         <Route element={<ProtectedRoute adminOnly={true} />}>
           <Route path="/admin" element={<AdminHome />} />
           <Route path="/admin/students" element={<StudentsList />} />
+          <Route path="/admin/students/:id" element={<StudentDetails />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/" />} />
