@@ -7,9 +7,20 @@ const router = express.Router();
 
 router.get("/students", isAuthenticated, isAdmin, async (req, res) => {
     try {
-        // Find all users with the role 'student'
-        const students = await User.find({ role: 'student' })
-            .select('username email usn branch confirmedPoints pendingPoints')
+        const { branch, year, search } = req.query;
+        let query = { role: 'student' };
+
+        if (branch) query.branch = branch;
+        if (year) query.currentYear = Number(year);
+        if (search) {
+            query.$or = [
+                { username: { $regex: search, $options: 'i' } },
+                { usn: { $regex: search, $options: 'i' } }
+            ];
+        }
+
+        const students = await User.find(query)
+            .select('username email usn branch currentYear confirmedPoints pendingPoints')
             .sort({ username: 1 });
 
         res.status(200).json({
@@ -18,27 +29,7 @@ router.get("/students", isAuthenticated, isAdmin, async (req, res) => {
             students
         });
     } catch (error) {
-        console.error("Error fetching students:", error);
         res.status(500).json({ success: false, message: "Server Error" });
-    }
-});
-
-
-router.get("/stats", isAuthenticated, isAdmin, async (req, res) => {
-    try {
-        const stats = await User.aggregate([
-            { $match: { role: 'student' } },
-            { 
-                $group: { 
-                    _id: null, 
-                    totalConfirmed: { $sum: "$confirmedPoints" },
-                    totalPending: { $sum: "$pendingPoints" }
-                } 
-            }
-        ]);
-        res.json({ success: true, stats: stats[0] || { totalConfirmed: 0, totalPending: 0 } });
-    } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
     }
 });
 

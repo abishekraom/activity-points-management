@@ -1,11 +1,12 @@
 import express from 'express';
 import User from '../models/User.js';
 import { isCounselor } from '../middleware/isCounselor.js';
+import { isAuthenticated } from '../middleware/isAuthenticated.js';
 import { parseUSN } from '../utils/usnParser.js';
 
 const router = express.Router();
 
-router.get('/my-students', isCounselor, async (req, res) => {
+router.get('/my-students', isAuthenticated, isCounselor, async (req, res) => {
     try {
         const students = await User.find({ counsellorEmail: req.user.email });
         res.json(students);
