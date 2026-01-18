@@ -2,9 +2,9 @@ import React from "react";
 import { Navigate, Outlet } from 'react-router-dom';
 import { getData } from '../context/userContext.jsx';
 
-// Add 'adminOnly' prop to handle different access levels
-function ProtectedRoute({ adminOnly = false }) {
-    const { user, loading, isAdmin } = getData(); // Destructure isAdmin from context
+// We replace adminOnly with requiredRole (e.g., 'admin' or 'counselor')
+function ProtectedRoute({ requiredRole }) {
+    const { user, loading } = getData();
 
     if (loading) return (
         <div className="h-screen w-full flex items-center justify-center bg-gray-50">
@@ -12,14 +12,15 @@ function ProtectedRoute({ adminOnly = false }) {
         </div>
     );
 
-    // 1. If not logged in at all, go to login
+    // 1. If not logged in, go to login
     if (!user) {
         return <Navigate to="/login" replace />;
     }
 
-    // 2. If page requires admin but user is NOT an admin, redirect to student dashboard
-    if (adminOnly && !isAdmin) {
-        return <Navigate to="/StudentHome.jsx" replace />;
+    // 2. If a specific role is required (admin or counselor)
+    if (requiredRole && user.role !== requiredRole) {
+        // If they are unauthorized, send them back to the root (Student Home)
+        return <Navigate to="/" replace />;
     }
 
     // 3. User is authorized

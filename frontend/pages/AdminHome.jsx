@@ -61,6 +61,9 @@ function AdminHome() {
 
                     <div
                         className="bg-white p-6 rounded-2xl shadow-sm border border-gray-300 hover:bg-gray-200 hover:shadow-md transition-shadow duration-300 cursor-pointer"
+                        onClick={() => {
+                            navigate("/admin/submissions");
+                        }}
                         >
                         <div className="flex items-center justify-between mb-4 p-3 rounded-lg text-orange-600">
                                 <FileText className="w-9 h-9" />

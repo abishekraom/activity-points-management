@@ -5,11 +5,14 @@ import About from "../pages/About.jsx";
 import Activities from "../pages/Activities.jsx";
 import AdminHome from "../pages/AdminHome.jsx";
 import AuthSuccess from "../pages/AuthSuccess.jsx";
+import CounselorHome from "../pages/CounselorHome.jsx";
 import Login from "../pages/Login.jsx";
 import Profile from "../pages/Profile.jsx";
 import StudentDetails from "../pages/StudentDetails.jsx";
+import StudentProfile from "../pages/StudentProfile.jsx"
 import StudentHome from "../pages/StudentHome.jsx";
 import StudentsList from "../pages/StudentsList.jsx";
+import Submissions from "../pages/Submissions.jsx";
 
 
 function App() {
@@ -34,6 +37,13 @@ function App() {
           <Route path="/admin" element={<AdminHome />} />
           <Route path="/admin/students" element={<StudentsList />} />
           <Route path="/admin/students/:id" element={<StudentDetails />} />
+          <Route path="/admin/submissions" element={<Submissions />} />
+        </Route>
+
+        {/* 3. Counselor Only Routes */}
+        <Route element={<ProtectedRoute requiredRole="counselor" />}>
+          <Route path="/counselor" element={<CounselorHome />} />
+          <Route path="/counselor/edit-student/:id" element={<StudentProfile />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/" />} />
