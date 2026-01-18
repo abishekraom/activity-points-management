@@ -1,4 +1,5 @@
 import { Routes, Route, Navigate } from "react-router-dom";
+import { getData } from '../context/userContext.jsx';
 import NavigationBar from "../components/NavigationBar.jsx"
 import ProtectedRoute from '../components/ProtectedRoute';
 import About from "../pages/About.jsx";
@@ -16,6 +17,7 @@ import Submissions from "../pages/Submissions.jsx";
 import Events from "../pages/Events.jsx";
 
 function App() {
+  const { user } = getData();
   return (
     <>
       <NavigationBar />
@@ -25,16 +27,28 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/auth-success" element={<AuthSuccess />} />
 
-        {/* Protected Routes (Students & Admins) */}
+        {/* Protected Routes */}
         <Route element={<ProtectedRoute />}>
-          <Route path="/" element={<StudentHome />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/activities" element={<Activities />} />
           <Route path="/events" element={<Events />} />
         </Route>
 
+        <Route element={<ProtectedRoute />}>
+          <Route path="/" element={
+            user?.role === 'admin' ? <Navigate to="/admin" replace /> :
+              user?.role === 'counselor' ? <Navigate to="/counselor" replace /> :
+                <StudentHome />
+          } />
+        </Route>
+
+        {/* Student Only Routes */}
+        <Route element={<ProtectedRoute requiredRole="student" />}>
+          <Route path="/" element={<StudentHome />} />
+          <Route path="/activities" element={<Activities />} />
+        </Route>
+
         {/* Admin Only Routes */}
-        <Route element={<ProtectedRoute adminOnly={true} />}>
+        <Route element={<ProtectedRoute requiredRole="admin" />}>
           <Route path="/admin" element={<AdminHome />} />
           <Route path="/admin/students" element={<StudentsList />} />
           <Route path="/admin/students/:id" element={<StudentDetails />} />

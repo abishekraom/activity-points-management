@@ -11,8 +11,15 @@ function NavigationBar() {
   const { user, setUser, isAdmin } = getData();
 
   const handleHomeClick = () => {
-    if (isAdmin) {
+    if (!user) {
+      navigate("/login");
+      return;
+    }
+
+    if (user.role === 'admin') {
       navigate("/admin");
+    } else if (user.role === 'counselor') {
+      navigate("/counselor");
     } else {
       navigate("/");
     }

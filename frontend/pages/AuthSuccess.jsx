@@ -16,8 +16,16 @@ const AuthSuccess = () => {
                 });
 
                 if (res.data.success) {
-                    setUser(res.data.user);
-                    navigate('/');
+                    const fetchedUser = res.data.user;
+                    setUser(fetchedUser);
+
+                    if (fetchedUser.role === 'admin') {
+                        navigate('/admin');
+                    } else if (fetchedUser.role === 'counselor') {
+                        navigate('/counselor');
+                    } else {
+                        navigate('/');
+                    }
                 }
             } catch (error) {
                 console.error("Error fetching user", error);
