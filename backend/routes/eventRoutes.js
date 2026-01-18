@@ -3,7 +3,9 @@ import User from '../models/User.js';
 import Event from '../models/Event.js';
 import Activity from '../models/Activity.js';
 import { isAuthenticated } from '../middleware/isAuthenticated.js';
+import { isAdmin } from '../middleware/isAdmin.js';
 import { syncUserPoints } from '../services/pointsService.js';
+
 
 const router = express.Router();
 
@@ -22,6 +24,26 @@ router.get('/user-activities', isAuthenticated, async (req, res) => {
         res.json(user.activities || []);
     } catch (error) {
         res.status(500).json({ message: "Error fetching activities" });
+    }
+});
+
+router.post('/create-event', isAuthenticated, isAdmin, async (req, res) => {
+    try {
+        const { eventName, date, points, posterUrl, registrationUrl } = req.body;
+
+        const newEvent = new Event({
+            eventName,
+            date: new Date(date),
+            points: Number(points),
+            posterUrl,
+            registrationUrl,
+        });
+
+        const savedEvent = await newEvent.save();
+        res.status(201).json(savedEvent);
+    } catch (error) {
+        console.error("Create Event Error:", error);
+        res.status(500).json({ message: "Failed to create master event" });
     }
 });
 

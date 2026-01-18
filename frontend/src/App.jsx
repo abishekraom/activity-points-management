@@ -13,7 +13,7 @@ import StudentProfile from "../pages/StudentProfile.jsx"
 import StudentHome from "../pages/StudentHome.jsx";
 import StudentsList from "../pages/StudentsList.jsx";
 import Submissions from "../pages/Submissions.jsx";
-
+import Events from "../pages/Events.jsx";
 
 function App() {
   return (
@@ -25,11 +25,12 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/auth-success" element={<AuthSuccess />} />
 
-        {/* Protected Routes */}
+        {/* Protected Routes (Students & Admins) */}
         <Route element={<ProtectedRoute />}>
           <Route path="/" element={<StudentHome />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/activities" element={<Activities />} />
+          <Route path="/events" element={<Events />} />
         </Route>
 
         {/* Admin Only Routes */}
@@ -40,7 +41,7 @@ function App() {
           <Route path="/admin/submissions" element={<Submissions />} />
         </Route>
 
-        {/* 3. Counselor Only Routes */}
+        {/* Counselor Only Routes */}
         <Route element={<ProtectedRoute requiredRole="counselor" />}>
           <Route path="/counselor" element={<CounselorHome />} />
           <Route path="/counselor/edit-student/:id" element={<StudentProfile />} />

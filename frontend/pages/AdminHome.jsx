@@ -11,14 +11,16 @@ function AdminHome() {
                 <h1 className='text-3xl text-gray-700'>Admin Dashboard</h1>
                 <hr className='border-gray-500'></hr>
                 <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 my-5'>
+                    
+                    {/* Students Card */}
                     <div
                         className="bg-white p-6 rounded-2xl shadow-sm border border-gray-300 hover:bg-gray-200 hover:shadow-md transition-shadow duration-300 cursor-pointer"
                         onClick={() => {
                             navigate("/admin/students");
                         }}
-                        >
+                    >
                         <div className="flex items-center justify-between mb-4 p-3 rounded-lg text-blue-600">
-                                <Users className="w-9 h-9" />
+                            <Users className="w-9 h-9" />
                         </div>
                         <div>
                             <h3 className="text-lg font-medium text-gray-700">
@@ -28,12 +30,12 @@ function AdminHome() {
                         </div>
                     </div>
 
-
+                    {/* Counselors Card */}
                     <div
                         className="bg-white p-6 rounded-2xl shadow-sm border border-gray-300 hover:bg-gray-200 hover:shadow-md transition-shadow duration-300 cursor-pointer"
-                        >
+                    >
                         <div className="flex items-center justify-between mb-4 p-3 rounded-lg text-green-600">
-                                <UserCheck className="w-9 h-9" />
+                            <UserCheck className="w-9 h-9" />
                         </div>
                         <div>
                             <h3 className="text-lg font-medium text-gray-700">
@@ -43,12 +45,15 @@ function AdminHome() {
                         </div>
                     </div>
 
-
+                    {/* Events Card*/}
                     <div
                         className="bg-white p-6 rounded-2xl shadow-sm border border-gray-300 hover:bg-gray-200 hover:shadow-md transition-shadow duration-300 cursor-pointer"
-                        >
+                        onClick={() => {
+                            navigate("/events");
+                        }}
+                    >
                         <div className="flex items-center justify-between mb-4 p-3 rounded-lg text-purple-600">
-                                <Calendar className="w-9 h-9" />
+                            <Calendar className="w-9 h-9" />
                         </div>
                         <div>
                             <h3 className="text-lg font-medium text-gray-700">
@@ -58,15 +63,15 @@ function AdminHome() {
                         </div>
                     </div>
 
-
+                    {/* Submissions Card */}
                     <div
                         className="bg-white p-6 rounded-2xl shadow-sm border border-gray-300 hover:bg-gray-200 hover:shadow-md transition-shadow duration-300 cursor-pointer"
                         onClick={() => {
                             navigate("/admin/submissions");
                         }}
-                        >
+                    >
                         <div className="flex items-center justify-between mb-4 p-3 rounded-lg text-orange-600">
-                                <FileText className="w-9 h-9" />
+                            <FileText className="w-9 h-9" />
                         </div>
                         <div>
                             <h3 className="text-lg font-medium text-gray-700">
@@ -75,7 +80,6 @@ function AdminHome() {
                             <p className="text-sm text-gray-700 mt-1">Manage all submissions</p>
                         </div>
                     </div>
-
 
                 </div>                
             </div>

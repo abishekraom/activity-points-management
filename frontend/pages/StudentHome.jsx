@@ -70,6 +70,12 @@ function StudentHome() {
           >
             Your activities
           </div>
+          <div
+            className="w-full border-2 border-blue-500 bg-blue-50 text-blue-700 hover:bg-blue-100 cursor-pointer shadow-md rounded-xl py-2 text-lg my-2 font-semibold transition-all flex items-center justify-center gap-2"
+            onClick={() => navigate("/events")}
+          >
+            <span>📅</span> Upcoming Events
+          </div>
           <div className="w-full border border-gray-300 hover:bg-gray-200 shadow-md rounded-xl py-2 text-lg my-2">
             Your documents
           </div>
