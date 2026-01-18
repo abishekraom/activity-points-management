@@ -90,15 +90,6 @@ function NavigationBar() {
 
               {dropdownOpen && (
                 <div className="absolute right-0 min-w-60 top-20 text-xl text-gray-700 bg-white shadow-lg transform origin-top transition-all">
-                  {isAdmin && (
-                    <div className="px-4 py-2 hover:bg-gray-100 font-bold text-blue-600 border-b cursor-pointer"
-                      onClick={() => {
-                        navigate("/admin");
-                        setDropdownOpen(false);
-                      }}>
-                      Admin Panel
-                    </div>
-                  )}
                   <div className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
                     onClick={() => {
                       navigate("/profile");
