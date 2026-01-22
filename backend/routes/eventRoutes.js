@@ -58,13 +58,16 @@ router.post('/add', isAuthenticated, async (req, res) => {
             status: 'pending',
             certificateUrl,
             reportUrl,
+            user: req.user._id, // <--- ADD THIS LINE
         });
 
         const savedActivity = await newActivity.save();
 
+        // The rest of your code remains the same
         await User.findByIdAndUpdate(req.user._id, {
             $push: { activities: savedActivity._id }
         });
+        
         await syncUserPoints(req.user._id);
 
         res.status(201).json(savedActivity);

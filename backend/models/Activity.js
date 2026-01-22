@@ -19,7 +19,6 @@ const activitySchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        required: true,
         enum: ['confirmed', 'pending', 'rejected'],
     },
     certificateUrl: {

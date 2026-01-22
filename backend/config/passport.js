@@ -5,7 +5,6 @@ import User from '../models/User.js';
 
 const adminEmails = [
   'suhasraghavendra.ai24@rvce.edu.in', 
-  'rahulg.ai24@rvce.edu.in',
   'samarthsathvik.ai24@rvce.edu.in',
   'saawanvivekk.ai24@rvce.edu.in'
 ];
