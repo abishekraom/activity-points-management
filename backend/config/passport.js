@@ -3,8 +3,7 @@ import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import passport from 'passport';
 import User from '../models/User.js';
 
-const adminEmails = [
-  'suhasraghavendra.ai24@rvce.edu.in', 
+const adminEmails = [ 
   'samarthsathvik.ai24@rvce.edu.in',
   'saawanvivekk.ai24@rvce.edu.in'
 ];

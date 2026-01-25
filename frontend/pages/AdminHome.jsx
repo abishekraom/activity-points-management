@@ -49,7 +49,7 @@ function AdminHome() {
                     <div
                         className="bg-white p-6 rounded-2xl shadow-sm border border-gray-300 hover:bg-gray-200 hover:shadow-md transition-shadow duration-300 cursor-pointer"
                         onClick={() => {
-                            navigate("/events");
+                            navigate("/admin/events");
                         }}
                     >
                         <div className="flex items-center justify-between mb-4 p-3 rounded-lg text-purple-600">

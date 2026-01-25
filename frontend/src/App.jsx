@@ -16,6 +16,7 @@ import StudentHome from "../pages/StudentHome.jsx";
 import StudentsList from "../pages/StudentsList.jsx";
 import Submissions from "../pages/Submissions.jsx";
 import Events from "../pages/Events.jsx";
+import AdminEvents from "../pages/AdminEvents.jsx";
 
 function App() {
   const { user } = getData();
@@ -52,6 +53,7 @@ function App() {
         {/* Admin Only Routes */}
         <Route element={<ProtectedRoute requiredRole={['admin', 'service']} />}>
           <Route path="/admin" element={<AdminHome />} />
+          <Route path="/admin/events" element={<AdminEvents />} />
           <Route path="/admin/students" element={<StudentsList />} />
           <Route path="/admin/students/:id" element={<StudentDetails />} />
           <Route path="/admin/submissions" element={<Submissions />} />

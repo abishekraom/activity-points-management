@@ -8,8 +8,6 @@ function StudentHome() {
   const { user, loading } = getData();
   const navigate = useNavigate();
 
-  const admissionYear = user?.usn ? 2000 + parseInt(user.usn.substring(3, 5)) : 2024;
-
   if (loading) return <div></div>;
 
   return (
@@ -44,7 +42,7 @@ function StudentHome() {
             <h2 className='text-lg font-bold text-gray-800'>Activity Analytics</h2>
           </div>
           <div className='h-[250px]'>
-            <ProgressGraph activities={user.activities} admissionYear={admissionYear} />
+            <ProgressGraph activities={user?.activities} />
           </div>
         </div>
 
