@@ -15,14 +15,10 @@ function NavigationBar() {
       navigate("/login");
       return;
     }
-
-    if (user.role === 'admin') {
-      navigate("/admin");
-    } else if (user.role === 'counselor') {
-      navigate("/counselor");
-    } else {
+    else {
       navigate("/");
     }
+    
   };
 
   // Uncomment the below section while working on frontend

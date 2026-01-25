@@ -1,6 +1,5 @@
 import React from "react";
-import { useState, useEffect } from 'react';
-import { Trash2, ExternalLink, FileText, Plus } from 'lucide-react'
+import { Trash2, CircleCheckBig, CircleCheck} from 'lucide-react'
 
 function ActivitiesTable({ activities, onDelete }) {
 
@@ -56,13 +55,20 @@ function ActivitiesTable({ activities, onDelete }) {
                             {activity.status.toUpperCase()}
                         </td>
                         <td className="px-2 py-4">
-                            <button 
-                                    onClick={() => onDelete(activity._id)}
-                                    className="text-gray-600 hover:text-red-500 transition p-2"
-                                    title="Delete Activity"
-                                >
-                                <Trash2 size={18} />
-                            </button>
+                            {activity.status === 'pending' ? 
+                                (
+                                <button 
+                                        onClick={() => onDelete(activity._id)}
+                                        className="text-gray-600 hover:text-red-500 transition p-2"
+                                        title="Delete Activity"
+                                    >
+                                    <Trash2 size={24} />
+                                </button>
+                                ) : (
+                                <div className="p-2">
+                                    <CircleCheck size={24} color='green' />
+                                </div>)
+                            }
                         </td>
                     </tr>
                 ))}
