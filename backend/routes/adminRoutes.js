@@ -99,4 +99,29 @@ router.put("/update-activity-status", isAuthenticated, isAdmin, async (req, res)
     }
 });
 
+router.get("/all-submissions", isAuthenticated, isAdmin, async (req, res) => {
+    try {
+        const { eventName, date } = req.query;
+        
+        let query = { status: 'pending' };
+
+        if (eventName) {
+            query.eventName = { $regex: eventName, $options: 'i' };
+        }
+
+        if (date) {
+            query.date = new Date(date);
+        }
+
+        const submissions = await Activity.find(query)
+            .populate('user', 'username usn branch')
+            .sort({ date: 1 });
+
+        res.status(200).json(submissions);
+    } catch (error) {
+        console.error("Error fetching submissions:", error);
+        res.status(500).json({ success: false, message: "Server Error" });
+    }
+});
+
 export default router;

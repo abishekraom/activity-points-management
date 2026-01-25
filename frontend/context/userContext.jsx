@@ -1,6 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
-import { isAdmin } from '../../backend/middleware/isAdmin';
 
 export const UserContext = createContext(null);
 
@@ -31,8 +30,9 @@ export const UserProvider = ({ children }) => {
         verifyUser();
     }, []);
     const isAdmin = user?.role === 'admin';
+    const isCounselor = user?.role === 'counselor';
     return (
-        <UserContext.Provider value={{user, setUser, loading, isAdmin }}>
+        <UserContext.Provider value={{user, setUser, loading, isAdmin, isCounselor }}>
             {children}
         </UserContext.Provider>
     )

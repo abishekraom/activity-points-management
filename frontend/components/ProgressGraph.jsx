@@ -1,66 +1,60 @@
 import React, { useMemo } from 'react';
 import { 
-  BarChart, Bar, XAxis, YAxis, CartesianGrid, 
+  LineChart, Line, XAxis, YAxis, CartesianGrid, 
   Tooltip, ResponsiveContainer
 } from "recharts";
 
-const ProgressGraph = ({ activities, admissionYear }) => {
-    const { chartData, uniqueEvents } = useMemo(() => {
-        const mockData = [
-            { 
-                name: 'Year 1', 
-                "Quiz": 10, 
-                "Hackathon": 20, 
-                "Workshop": 5, 
-                total: 35 
-            },
-            { 
-                name: 'Year 2', 
-                "Hackathon": 15, 
-                "CSI Seminar": 10, 
-                "Research Paper": 30, 
-                total: 55 
-            },
-            { 
-                name: 'Year 3', 
-                "Internship": 40, 
-                "Project Phase 1": 20, 
-                total: 60 
-            },
-            { 
-                name: 'Year 4', 
-                "Final Project": 50, 
-                "Paper Pub": 20, 
-                total: 70 
+const ProgressGraph = ({ activities }) => {
+    const { chartData } = useMemo(() => {
+        // Handle null or empty activities
+        if (!activities || activities.length === 0) {
+            return { chartData: [] };
+        }
+
+        // Filter confirmed activities only
+        const confirmedActivities = activities.filter(activity => activity.status === 'confirmed');
+
+        if (confirmedActivities.length === 0) {
+            return { chartData: [] };
+        }
+
+        // Sort activities by date
+        const sortedActivities = [...confirmedActivities].sort((a, b) => new Date(a.date) - new Date(b.date));
+
+        // Group activities by month
+        const monthlyData = {};
+
+        sortedActivities.forEach(activity => {
+            const date = new Date(activity.date);
+            const monthKey = `${date.toLocaleDateString('en-US', { month: 'short' })} ${date.getFullYear()}`;
+            
+            if (!monthlyData[monthKey]) {
+                monthlyData[monthKey] = 0;
             }
-        ];
+            monthlyData[monthKey] += activity.points || 0;
+        });
 
-        // This list tells Recharts which keys to look for to build the stacks
-        const mockEvents = [
-            "Quiz", "Hackathon", "Workshop", "CSI Seminar", 
-            "Research Paper", "Internship", "Project Phase 1", 
-            "Final Project", "Paper Pub"
-        ];
+        // Create cumulative data
+        let cumulativePoints = 0;
+        const chartDataArray = Object.entries(monthlyData).map(([month, points]) => {
+            cumulativePoints += points;
+            return {
+                month,
+                points: Math.min(cumulativePoints, 100) // Cap at 100
+            };
+        });
 
-        return { chartData: mockData, uniqueEvents: mockEvents };
-    }, []);
+        return { chartData: chartDataArray };
+    }, [activities]);
     // Custom Tooltip Component
-    const CustomTooltip = ({ active, payload, label }) => {
+    const CustomTooltip = ({ active, payload }) => {
         if (active && payload && payload.length) {
             return (
                 <div className="bg-gray-900 text-white p-4 rounded-xl shadow-2xl border border-gray-700 min-w-[180px]">
-                    <p className="text-gray-400 text-xs font-bold mb-2 uppercase tracking-widest">{label}</p>
-                    <div className="space-y-2">
-                        {payload.map((entry, index) => (
-                            <div key={index} className="flex justify-between gap-4 text-sm">
-                                <span className="text-gray-300 truncate max-w-[120px]">{entry.name}</span>
-                                <span className="font-bold text-green-400">+{entry.value}</span>
-                            </div>
-                        ))}
-                    </div>
-                    <div className="mt-3 pt-2 border-t border-gray-700 flex justify-between font-bold text-sm">
-                        <span>Year Total:</span>
-                        <span>{payload[0].payload.total} pts</span>
+                    <p className="text-gray-400 text-xs font-bold mb-2 uppercase tracking-widest">{payload[0].payload.month}</p>
+                    <div className="flex justify-between gap-4 text-sm">
+                        <span className="text-gray-300">Points:</span>
+                        <span className="font-bold text-green-400">{payload[0].value}</span>
                     </div>
                 </div>
             );
@@ -82,14 +76,13 @@ const ProgressGraph = ({ activities, admissionYear }) => {
     return (
         <div className="w-full h-full min-h-[300px]">
             <ResponsiveContainer width="100%" height="100%">
-                <BarChart
+                <LineChart
                     data={chartData}
                     margin={{ top: 20, right: 30, left: -20, bottom: 5 }}
-                    barSize={50}
                 >
                     <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f3f4f6" />
                     <XAxis 
-                        dataKey="name" 
+                        dataKey="month" 
                         axisLine={false} 
                         tickLine={false} 
                         tick={{ fill: '#6b7280', fontSize: 12, fontWeight: 600 }}
@@ -98,23 +91,21 @@ const ProgressGraph = ({ activities, admissionYear }) => {
                         axisLine={false} 
                         tickLine={false} 
                         tick={{ fill: '#9ca3af', fontSize: 12 }}
+                        domain={[0, 100]}
                     />
                     <Tooltip 
                         content={<CustomTooltip />} 
-                        cursor={{ fill: '#f3f4f6', opacity: 0.4 }}
+                        cursor={{ stroke: '#22c55e', strokeWidth: 2 }}
                     />
-                    
-                    {uniqueEvents.map((event, index) => (
-                        <Bar 
-                            key={event} 
-                            dataKey={event} 
-                            stackId="a" 
-                            fill={colors[index % colors.length]}
-                            // Only round the top-most bar in the stack
-                            radius={index === uniqueEvents.length - 1 ? [4, 4, 0, 0] : [0, 0, 0, 0]} 
-                        />
-                    ))}
-                </BarChart>
+                    <Line 
+                        type="monotone" 
+                        dataKey="points" 
+                        stroke="#22c55e" 
+                        strokeWidth={3}
+                        dot={{ fill: '#22c55e', r: 4 }}
+                        activeDot={{ r: 6 }}
+                    />
+                </LineChart>
             </ResponsiveContainer>
         </div>
     );

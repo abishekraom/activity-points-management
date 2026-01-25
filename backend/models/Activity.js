@@ -19,7 +19,6 @@ const activitySchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        required: true,
         enum: ['confirmed', 'pending', 'rejected'],
     },
     certificateUrl: {
@@ -29,6 +28,11 @@ const activitySchema = new mongoose.Schema({
     reportUrl: {
         type: String,
         trim: true,
+    },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true,
     }
 });
 

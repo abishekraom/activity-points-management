@@ -23,8 +23,14 @@ router.get("/google/callback", passport.authenticate("google", {session: false})
     }
 });
 
-router.get("/me", isAuthenticated, (req, res) => {
-    res.json({success: true, user: req.user});
+router.get("/me", isAuthenticated, async (req, res) => {
+    try {
+        const user = await User.findById(req.user._id).populate('activities');
+        res.json({success: true, user});
+    } catch (error) {
+        console.error("Error fetching user:", error);
+        res.json({success: true, user: req.user});
+    }
 });
 
 router.post("/logout", (req, res) => {
