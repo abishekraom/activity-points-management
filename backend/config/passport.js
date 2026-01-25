@@ -3,10 +3,6 @@ import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import passport from 'passport';
 import User from '../models/User.js';
 
-const adminEmails = [ 
-  'samarthsathvik.ai24@rvce.edu.in',
-  'saawanvivekk.ai24@rvce.edu.in'
-];
 
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
