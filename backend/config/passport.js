@@ -24,13 +24,10 @@ passport.use(new GoogleStrategy({
             profilePic: profile.photos[0].value,
             isLoggedIn: true,
             isVerified: true,
-            role: adminEmails.includes(email) ? 'admin' : 'student'
+            role: 'student'
         })
       } else {
         user.profilePic = profile.photos[0].value;
-        if (adminEmails.includes(email)) {
-                user.role = 'admin';
-            }
         await user.save();
       }
       
