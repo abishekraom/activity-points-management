@@ -60,7 +60,7 @@ function About() {
             />
 
             <div className="col-span-2 flex justify-center w-full"> 
-              <div className="w-full md:max-w-[calc(50%-1rem)]"> {/* 50% - half the gap (8/2 = 4 units = 1rem) */}
+              <div className="w-full md:max-w-[calc(50%-1rem)]">
                 <Card 
                   name="Rahul G" 
                   contact="XXXXXXXXXX" 
