@@ -1,6 +1,6 @@
 import React from "react";
 import { createContext, useState, useEffect, useContext } from "react";
-import axios from 'axios';
+import API from '../src/api/axios.js';
 
 const EventContext = createContext();
 
@@ -11,7 +11,7 @@ export const EventProvider = ({ children }) => {
     useEffect(() => {
         const fetchEvents = async () => {
             try {
-                const res = await axios.get("http://localhost:5000/api/events");
+                const res = await API.get("/api/events");
                 setAllEvents(res.data);
             } catch (error) {
                 console.error("Error loading events");

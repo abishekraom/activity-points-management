@@ -1,20 +1,20 @@
-@font-face{
+@font-face {
     font-family: "Ubuntu";
-    src: url("../src/assets/fonts/Ubuntu-Regular.ttf") format("truetype");
+    src: url("/assets/fonts/Ubuntu-Regular.ttf") format("truetype");
     font-weight: 100 900;
-    font-style:normal; 
+    font-style: normal; 
 }
 
-@font-face{
+@font-face {
     font-family: "Ubuntu";
-    src: url("../src/assets/fonts/Ubuntu-Italic.ttf") format("truetype");
+    src: url("/assets/fonts/Ubuntu-Italic.ttf") format("truetype");
     font-weight: 100 900;
     font-style: italic;
 }
 
 @import "tailwindcss";
 
-@theme{
+@theme {
     --font-sans: "Ubuntu", "sans-serif";
     --color-nav-bg: #555655;
     --color-nav-text: #313131;

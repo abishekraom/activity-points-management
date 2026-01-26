@@ -38,25 +38,25 @@ function About() {
             <Card 
               name="Samarth Sathvik" 
               contact="XXXXXXXXXX" 
-              imageUrl="../src/assets/images/sample_image.jpg"
+              imageUrl="/assets/images/sample_image.jpg"
             />
 
             <Card 
               name="Suhas Raghavendra" 
               contact="XXXXXXXXXX" 
-              imageUrl="../src/assets/images/sample_image.jpg"
+              imageUrl="/assets/images/sample_image.jpg"
             />
 
             <Card 
               name="Saawan Vivek Krishnam" 
               contact="XXXXXXXXXX" 
-              imageUrl="../src/assets/images/sample_image.jpg"
+              imageUrl="/assets/images/sample_image.jpg"
             />
 
             <Card 
               name="Shlok Chaudhary" 
               contact="XXXXXXXXXX" 
-              imageUrl="../src/assets/images/sample_image.jpg"
+              imageUrl="/assets/images/sample_image.jpg"
             />
 
             <div className="col-span-2 flex justify-center w-full"> 
@@ -64,7 +64,7 @@ function About() {
                 <Card 
                   name="Rahul G" 
                   contact="XXXXXXXXXX" 
-                  imageUrl="../src/assets/images/sample_image.jpg"
+                  imageUrl="/assets/images/sample_image.jpg"
                 />
               </div>
             </div>

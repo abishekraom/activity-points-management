@@ -18,7 +18,7 @@ function Login() {
             Login with Google
           </span>
           <img 
-            src="../src/assets/images/google_logo.png"
+            src="/assets/images/google_logo.png"
             alt="Google Logo"
             className="h-6 w-6 ml-20"
           />
