@@ -10,7 +10,7 @@ const ServiceHome = () => {
 
 return (
     <div className="min-h-screen bg-gray-100 p-10">
-      <h1 className="text-3xl font-bold text-center mb-10 text-gray-800">Service Control Center</h1>
+      <h1 className="text-3xl font-bold text-center mb-10 text-gray-800">Service Page</h1>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
         {cards.map((card) => (
           <Link key={card.path} to={card.path} className="transform hover:scale-105 transition">

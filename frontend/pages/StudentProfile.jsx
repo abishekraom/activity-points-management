@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { ChevronLeft, Save, User as UserIcon, AlertCircle } from "lucide-react";
-import axios from "axios";
+import API from '../src/api/axios.js';
 
 function EditStudentProfile() {
     const { id } = useParams();
@@ -18,7 +18,7 @@ function EditStudentProfile() {
     useEffect(() => {
         const fetchStudent = async () => {
             try {
-                const res = await axios.get(`http://localhost:5000/api/counselor/student/${id}`, {
+                const res = await API.get(`/api/counselor/student/${id}`, {
                     withCredentials: true
                 });
                 setStudent(res.data);
@@ -39,12 +39,12 @@ function EditStudentProfile() {
         e.preventDefault();
         setSaving(true);
         try {
-            await axios.put(`http://localhost:5000/api/counselor/update-student/${id}`, 
+            await API.put(`/api/counselor/update-student/${id}`, 
                 formData, 
                 { withCredentials: true }
             );
             alert("Profile updated successfully!");
-            navigate("/counselor"); // Go back to dashboard
+            navigate("/counselor");
         } catch (err) {
             alert(err.response?.data?.message || "Failed to update profile");
         } finally {
@@ -79,7 +79,6 @@ function EditStudentProfile() {
                     </div>
 
                     <form onSubmit={handleSubmit} className="p-8 space-y-6">
-                        {/* USN Field */}
                         <div>
                             <label className="block text-sm font-semibold text-gray-600 uppercase mb-2">
                                 University Seat Number (USN)
@@ -97,7 +96,6 @@ function EditStudentProfile() {
                             </p>
                         </div>
 
-                        {/* Manual Year Field */}
                         <div>
                             <label className="block text-sm font-semibold text-gray-600 uppercase mb-2">
                                 Current Year (Manual Override)
@@ -114,7 +112,7 @@ function EditStudentProfile() {
                                 <option value="4">4th Year</option>
                             </select>
                             <div className="mt-3 flex items-start gap-2 p-3 bg-amber-50 rounded-lg border border-amber-100">
-                                <AlertCircle className="w-4 h-4 text-amber-600 mt-0.5 flex-shrink-0" />
+                                <AlertCircle className="w-4 h-4 text-amber-600 mt-0.5 shrink-0" />
                                 <p className="text-xs text-amber-700">
                                     Use this to override the calculated year for Diploma lateral entry or Year-back students.
                                 </p>

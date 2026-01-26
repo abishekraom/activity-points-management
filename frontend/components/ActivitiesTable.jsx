@@ -55,7 +55,7 @@ function ActivitiesTable({ activities, onDelete }) {
                             {activity.status.toUpperCase()}
                         </td>
                         <td className="px-2 py-4">
-                            {activity.status === 'pending' ? 
+                            {activity.status === 'pending' || activity.status === 'rejected' ? 
                                 (
                                 <button 
                                         onClick={() => onDelete(activity._id)}

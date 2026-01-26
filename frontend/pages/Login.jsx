@@ -12,7 +12,7 @@ function Login() {
           className="bg-white hover:bg-gray-50 text-lg text-gray-500 text-left border-2 
          border-gray-300 hover:border-blue-100 rounded-2xl pl-8 py-5 mx-5 w-xs flex
           shadow-md active:shadow-none active:translate-y-0.5 active:scale-[0.99]"
-          onClick={() => window.open("http://localhost:5000/api/auth/google", "_self")}
+          onClick={() => window.open(`${import.meta.env.VITE_API_URL}/api/auth/google`, "_self")}
         >
           <span className="mr-2">
             Login with Google
@@ -20,7 +20,7 @@ function Login() {
           <img 
             src="../src/assets/images/google_logo.png"
             alt="Google Logo"
-            className="h-6 w-6 ml-20" // Set size and spacing
+            className="h-6 w-6 ml-20"
           />
         </button>
 

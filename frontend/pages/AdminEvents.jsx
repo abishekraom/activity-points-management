@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import API from '../src/api/axios.js';
 import { getData } from '../context/userContext.jsx';
 
 const AdminEvents = () => {
@@ -14,7 +14,7 @@ const AdminEvents = () => {
     useEffect(() => {
         const fetchEvents = async () => {
             try {
-                const res = await axios.get('http://localhost:5000/api/events');
+                const res = await API.get('/api/events');
                 setEvents(res.data);
             } catch (err) {
                 console.error("Error fetching events", err);
@@ -28,7 +28,7 @@ const AdminEvents = () => {
     const handleCreateEvent = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post('http://localhost:5000/api/events/create-event', formData, { withCredentials: true });
+            const res = await API.post('/api/events/create-event', formData, { withCredentials: true });
             alert("Event Posted!");
             setEvents([res.data, ...events]); 
             setFormData({ eventName: '', date: '', points: '', posterUrl: '', registrationUrl: '' });

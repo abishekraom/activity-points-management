@@ -2,13 +2,11 @@ import React from 'react';
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getData } from '../context/userContext.jsx';
-import axios from 'axios';
+import API from '../src/api/axios.js';
 
 function NavigationBar() {
   const navigate = useNavigate();
-
-  // Comment the below line while designing frontend, if necessary only
-  const { user, setUser, isAdmin } = getData();
+  const { user, setUser } = getData();
 
   const handleHomeClick = () => {
     if (!user) {
@@ -21,20 +19,12 @@ function NavigationBar() {
     
   };
 
-  // Uncomment the below section while working on frontend
-
-  // const [user, setUser] = useState({
-  // name: "Alex (Mock)",
-  // profilePic: "https://placehold.co/40",
-  // email: "test@example.com"
-  // });
-
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
 
   const handleLogout = async () => {
     try {
-      await axios.post("http://localhost:5000/api/auth/logout", {}, { withCredentials: true });
+      await API.post("/api/auth/logout", {}, { withCredentials: true });
       setUser(null);
       setDropdownOpen(false);
       navigate("/login");
@@ -58,7 +48,8 @@ function NavigationBar() {
 
       <button onClick={handleHomeClick}
         className="text-3xl py-3"
-      >Activity Points Tracker</button>
+      >Activity Points Tracker (Beta)
+      </button>
 
       <div className="flex">
         <button onClick={handleHomeClick}
@@ -77,7 +68,6 @@ function NavigationBar() {
         </button>
 
         {
-          // Replace 'user' with 'true' while designing the frontend.
           user ? (
             <div className="relative flex" ref={dropdownRef}>
               <button
@@ -93,7 +83,9 @@ function NavigationBar() {
 
               {dropdownOpen && (
                 <div className="absolute right-0 min-w-60 top-20 text-xl text-gray-700 bg-white shadow-lg transform origin-top transition-all">
-                  <div className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                  
+                  {user.role === 'student' && (
+                    <div className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
                     onClick={() => {
                       navigate("/profile");
                       setDropdownOpen(false);
@@ -101,6 +93,7 @@ function NavigationBar() {
                   >
                     Profile
                   </div>
+                  )}                  
                   <div className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
                     onClick={handleLogout}>
                     Logout

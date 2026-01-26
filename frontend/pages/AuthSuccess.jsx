@@ -1,5 +1,5 @@
 import { getData } from '../context/userContext.jsx';
-import axios from 'axios';
+import API from '../src/api/axios.js';
 import React from 'react'
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -11,7 +11,7 @@ const AuthSuccess = () => {
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const res = await axios.get("http://localhost:5000/api/auth/me", {
+                const res = await API.get("/api/auth/me", {
                     withCredentials: true
                 });
 

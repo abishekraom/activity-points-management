@@ -3,8 +3,7 @@ import ActivitiesTable from "../components/ActivitiesTable";
 import { useEventList } from "../context/eventContext";
 import { useState, useEffect } from 'react';
 import { Plus } from 'lucide-react';
-import axios from 'axios';
-
+import API from '../src/api/axios.js';
 
 
 function Activities () {
@@ -28,7 +27,7 @@ function Activities () {
             try {
                 setLoading(true);
 
-                const res = await axios.get("http://localhost:5000/api/events/user-activities", { 
+                const res = await API.get('/api/events/user-activities', { 
                     withCredentials: true 
                 });
                 const sorted = res.data.sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -58,24 +57,45 @@ function Activities () {
         setShowSuggestions(false);
     }
 
+    const validateDriveLink = async (url) => {
+        const driveRegex = /drive\.google\.com\/(file\/d\/|open\?id=)([\w-]+)/;
+        if (!driveRegex.test(url)) return false;
+
+        try {
+            const response = await fetch(url, { 
+                mode: 'no-cors',
+                cache: 'no-cache'
+            });
+            return response.type === 'opaque'; 
+        } catch (e) {
+            return false;
+        }
+    };
     const handleSubmit = async () => {
         setError("");
-
+        
         if (!formData.eventName || !formData.date || !formData.points || !formData.certificateUrl || !formData.reportUrl) {
             setError("All fields are mandatory.");
             return;
         }
 
+        setLoading(true);
+
         try {
-            setLoading(true);
-            const res = await axios.post("http://localhost:5000/api/events/add", 
-                formData, 
-                { withCredentials: true }
-            );
+            const isCertValid = await validateDriveLink(formData.certificateUrl);
+            const isReportValid = await validateDriveLink(formData.reportUrl);
+
+            if (!isCertValid || !isReportValid) {
+                setLoading(false);
+                setError(`Permission Denied: Ensure your ${!isCertValid ? 'Certificate' : 'Report'} link is set to "Anyone with the link" in Google Drive.`);
+                return;
+            }
+
+            const res = await API.post("/api/events/add", formData);
+
 
             setActivities(prev => [res.data, ...prev].sort((a, b) => new Date(b.date) - new Date(a.date)));
-            
-            setFormData({ eventName: "", date: "", points: 0 });
+            setFormData({ eventName: "", date: "", points: 0, certificateUrl: "", reportUrl: "" });
             setIsModalOpen(false);
         } catch (error) {
             console.error("Error adding activity:", error);
@@ -83,14 +103,14 @@ function Activities () {
         } finally {
             setLoading(false);
         }
-    }
+    };
 
     const handleDelete = async (activityId) => {
         if (!window.confirm("Are you sure you want to delete this activity?")) return;
 
         try {
             setLoading(true);
-            await axios.delete(`http://localhost:5000/api/events/delete/${activityId}`, {
+            await API.delete(`/api/events/delete/${activityId}`, {
                 withCredentials: true
             });
 
@@ -195,7 +215,7 @@ function Activities () {
                                     type="url"
                                     placeholder="Google Drive link for certificate"
                                     className="w-lg p-3 border border-gray-200 rounded-xl focus:border-blue-500 outline-none transition"
-                                    value={formData.certificateUrl}
+                                    value={formData.certificateUrl || ""}
                                     onChange={(e) => setFormData({...formData, certificateUrl: e.target.value})}
                                     />
                             </div>
@@ -206,7 +226,7 @@ function Activities () {
                                     type="url"
                                     placeholder="Google Drive link for report"
                                     className="w-lg p-3 border border-gray-200 rounded-xl focus:border-blue-500 outline-none transition" 
-                                    value={formData.reportUrl}
+                                    value={formData.reportUrl || ""}
                                     onChange={(e) => setFormData({...formData, reportUrl: e.target.value})}
                                 />
                                 

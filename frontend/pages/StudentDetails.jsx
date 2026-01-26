@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { ChevronLeft } from "lucide-react";
 import ProgressBar from "../components/ProgressBar";
-import axios from "axios";
+import API from '../src/api/axios.js';
 
 function StudentDetails() {
     const { id } = useParams();
@@ -14,7 +14,7 @@ function StudentDetails() {
     useEffect(() => {
         const fetchStudentDetails = async () => {
             try {
-                const { data } = await axios.get(`http://localhost:5000/api/admin/students/${id}`, {
+                const { data } = await API.get(`/api/admin/students/${id}`, {
                     withCredentials: true
                 });
                 setStudent(data.student);
@@ -31,7 +31,7 @@ function StudentDetails() {
         const fetchStudentActivities = async () => {
             try {
                 setLoading(true);
-                const res = await axios.get(`http://localhost:5000/api/admin/student-activities/${id}`, { 
+                const res = await API.get(`/api/admin/student-activities/${id}`, { 
                     withCredentials: true 
                 });
                 const sorted = res.data.sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -47,7 +47,7 @@ function StudentDetails() {
 
     const handleStatusChange = async (activityId, newStatus) => {
         try {
-            const res = await axios.put(`http://localhost:5000/api/admin/update-activity-status`, {
+            const res = await API.put(`/api/admin/update-activity-status`, {
                 activityId,
                 status: newStatus,
                 studentId: id 

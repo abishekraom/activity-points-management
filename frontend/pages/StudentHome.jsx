@@ -34,10 +34,9 @@ function StudentHome() {
         </div>
       </div>
 
-      <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8">
+      <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8 min-h-100">
 
-        {/* Left Box: Graph (Takes 2 columns) */}
-        <div className="lg:col-span-2 bg-white rounded-2xl px-8 pt-2 shadow-md">
+        <div className="lg:col-span-2 bg-white rounded-2xl px-8 pt-2 shadow-md h-full">
           <div className='flex justify-between items-center'>
             <h2 className='text-lg font-bold text-gray-800'>Activity Analytics</h2>
           </div>
@@ -46,7 +45,7 @@ function StudentHome() {
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl px-8 shadow-md flex flex-col py-8 text-center">
+        <div className="bg-white rounded-2xl px-8 shadow-md flex flex-col py-8 text-center h-full">
           <div className="grid lg:grid-cols-2 gap-8 text-2xl my-2">
             <div>
               Confirmed
@@ -69,16 +68,10 @@ function StudentHome() {
             Your activities
           </div>
           <div
-            className="w-full border-2 border-blue-500 bg-blue-50 text-blue-700 hover:bg-blue-100 cursor-pointer shadow-md rounded-xl py-2 text-lg my-2 font-semibold transition-all flex items-center justify-center gap-2"
+            className="w-full border border-gray-300 hover:bg-gray-200 shadow-md rounded-xl py-2 text-lg my-2"
             onClick={() => navigate("/events")}
-          >
-            <span>📅</span> Upcoming Events
-          </div>
-          <div className="w-full border border-gray-300 hover:bg-gray-200 shadow-md rounded-xl py-2 text-lg my-2">
-            Your documents
-          </div>
-          <div className="w-full border border-gray-300 hover:bg-gray-200 shadow-md rounded-xl py-2 text-lg my-2">
-            Your reports
+            >
+            Upcoming Events
           </div>
         </div>
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import API from '../src/api/axios.js';
 import { useNavigate } from "react-router-dom";
 import { UserPlus, Search, ExternalLink } from "lucide-react";
 
@@ -11,7 +11,7 @@ function CounselorHome() {
 
     const fetchMyStudents = async () => {
         try {
-            const res = await axios.get("http://localhost:5000/api/counselor/my-students", { withCredentials: true });
+            const res = await API.get("/api/counselor/my-students", { withCredentials: true });
             setStudents(res.data);
         } catch (err) { console.error(err); }
     };
@@ -20,17 +20,16 @@ function CounselorHome() {
 
     const handleAddStudent = async (e) => {
         e.preventDefault();
-        setLoading(true); // Disable the button while processing
+        setLoading(true);
         try {
-            const res = await axios.post("http://localhost:5000/api/counselor/add-student", 
+            const res = await API.post("/api/counselor/add-student", 
                 { studentEmail: newEmail }, 
                 { withCredentials: true }
             );
             
-            // Success feedback
             alert(res.data.message || "Student added successfully!");
             setNewEmail("");
-            await fetchMyStudents(); // Wait for the list to refresh
+            await fetchMyStudents();
         } catch (err) {
             console.error("Add student error:", err);
             alert(err.response?.data?.message || "Error adding student. Check if the email exists.");
@@ -43,8 +42,7 @@ function CounselorHome() {
         <div className="bg-gray-100 min-h-screen py-8 px-10">
             <div className="max-w-6xl mx-auto bg-white rounded-2xl p-8 shadow-md">
                 <h1 className="text-3xl text-gray-700 mb-6 font-bold">Counselor Dashboard</h1>
-                
-                {/* Add Student Form */}
+
                 <form onSubmit={handleAddStudent} className="flex gap-4 mb-10 bg-gray-50 p-6 rounded-xl border border-gray-200">
                     <div className="flex-1 relative">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
@@ -71,7 +69,6 @@ function CounselorHome() {
                     </button>
                 </form>
 
-                {/* Students Table */}
                 <table className="w-full text-left border-collapse border-2 border-gray-200">
                     <thead>
                         <tr className="bg-gray-100 text-gray-600 font-semibold text-lg">

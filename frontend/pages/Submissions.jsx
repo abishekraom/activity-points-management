@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
-import axios from "axios";
+import API from '../src/api/axios.js';
 import { Search, Calendar, Check, X, ChevronLeft } from "lucide-react";
 
 function Submissions() {
@@ -12,7 +12,7 @@ function Submissions() {
     const fetchSubmissions = async () => {
         setLoading(true);
         try {
-            const res = await axios.get("http://localhost:5000/api/admin/all-submissions", { 
+            const res = await API.get("/api/admin/all-submissions", { 
                 params: filters,
                 withCredentials: true 
             });
@@ -30,13 +30,12 @@ function Submissions() {
 
     const handleStatusChange = async (activityId, studentId, newStatus) => {
         try {
-            await axios.put(`http://localhost:5000/api/admin/update-activity-status`, {
+            await API.put(`/api/admin/update-activity-status`, {
                 activityId,
                 status: newStatus,
                 studentId
             }, { withCredentials: true });
             
-            // Remove the item from the list once processed (since we only show pending)
             setActivities(prev => prev.filter(act => act._id !== activityId));
         } catch (error) {
             alert("Failed to update status");
@@ -54,7 +53,6 @@ function Submissions() {
                 </button>
                 <h1 className="text-3xl text-gray-700 mb-4">Pending Submissions</h1>
                 
-                {/* Filters */}
                 <div className="flex gap-4 mb-6">
                     <div className="relative">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />

@@ -6,22 +6,18 @@ import {
 
 const ProgressGraph = ({ activities }) => {
     const { chartData } = useMemo(() => {
-        // Handle null or empty activities
         if (!activities || activities.length === 0) {
             return { chartData: [] };
         }
 
-        // Filter confirmed activities only
         const confirmedActivities = activities.filter(activity => activity.status === 'confirmed');
 
         if (confirmedActivities.length === 0) {
             return { chartData: [] };
         }
 
-        // Sort activities by date
         const sortedActivities = [...confirmedActivities].sort((a, b) => new Date(a.date) - new Date(b.date));
 
-        // Group activities by month
         const monthlyData = {};
 
         sortedActivities.forEach(activity => {
@@ -34,19 +30,17 @@ const ProgressGraph = ({ activities }) => {
             monthlyData[monthKey] += activity.points || 0;
         });
 
-        // Create cumulative data
         let cumulativePoints = 0;
         const chartDataArray = Object.entries(monthlyData).map(([month, points]) => {
             cumulativePoints += points;
             return {
                 month,
-                points: Math.min(cumulativePoints, 100) // Cap at 100
+                points: Math.min(cumulativePoints, 100)
             };
         });
 
         return { chartData: chartDataArray };
     }, [activities]);
-    // Custom Tooltip Component
     const CustomTooltip = ({ active, payload }) => {
         if (active && payload && payload.length) {
             return (
@@ -64,7 +58,6 @@ const ProgressGraph = ({ activities }) => {
 
     const colors = ['#22c55e', '#16a34a', '#15803d', '#166534', '#14532d', '#4ade80'];
 
-    // Fallback UI if no activities are confirmed yet
     if (chartData.length === 0) {
         return (
             <div className="w-full h-full min-h-[300px] flex items-center justify-center border-2 border-dashed border-gray-200 rounded-2xl">

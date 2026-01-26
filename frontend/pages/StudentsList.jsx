@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import { Search, ChevronLeft, ChevronDown } from 'lucide-react';
-import axios from "axios";
+import API from '../src/api/axios.js';
 
 function StudentsList() {
     const [students, setStudents] = useState([]);
@@ -18,7 +18,7 @@ function StudentsList() {
     const fetchStudents = async () => {
         setLoading(true);
         try {
-            const { data } = await axios.get("http://localhost:5000/api/admin/students", { params: filters, withCredentials: true});
+            const { data } = await API.get("/api/admin/students", { params: filters, withCredentials: true});
             setStudents(data.students || []);
         } catch (error) {
             console.error("Error fetching students: ", error);   
