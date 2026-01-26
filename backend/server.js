@@ -34,6 +34,6 @@ app.use("/api/counselor", isAuthenticated, counselorRouter);
 connectDB();
 axiosConfig();
 
-app.listen(PORT, () => {
+app.listen(PORT,"0.0.0.0", () => {
     console.log(`Server started at port ${PORT}`); 
 });
