@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { ChevronLeft } from "lucide-react";
 import ProgressBar from "../components/ProgressBar";
-import API from '../src/api/axios.js';
+import API from '../api/axios.js';
 
 function StudentDetails() {
     const { id } = useParams();

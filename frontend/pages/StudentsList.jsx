@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import { Search, ChevronLeft, ChevronDown } from 'lucide-react';
-import API from '../src/api/axios.js';
+import API from '../api/axios.js';
 
 function StudentsList() {
     const [students, setStudents] = useState([]);

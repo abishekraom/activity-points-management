@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { ChevronLeft, Save, User as UserIcon, AlertCircle } from "lucide-react";
-import API from '../src/api/axios.js';
+import API from '../api/axios.js';
 
 function EditStudentProfile() {
     const { id } = useParams();

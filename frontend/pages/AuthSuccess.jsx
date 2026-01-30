@@ -1,5 +1,5 @@
 import { getData } from '../context/userContext.jsx';
-import API from '../src/api/axios.js';
+import API from '../api/axios.js';
 import React from 'react'
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';

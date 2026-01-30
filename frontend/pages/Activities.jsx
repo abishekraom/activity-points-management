@@ -3,7 +3,7 @@ import ActivitiesTable from "../components/ActivitiesTable";
 import { useEventList } from "../context/eventContext";
 import { useState, useEffect } from 'react';
 import { Plus } from 'lucide-react';
-import API from '../src/api/axios.js';
+import API from '../api/axios.js';
 
 
 function Activities () {

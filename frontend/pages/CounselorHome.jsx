@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import API from '../src/api/axios.js';
+import API from '../api/axios.js';
 import { useNavigate } from "react-router-dom";
 import { UserPlus, Search, ExternalLink } from "lucide-react";
 

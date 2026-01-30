@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import API from '../src/api/axios.js';
+import API from '../api/axios.js';
 import { getData } from '../context/userContext.jsx';
 
 const AdminEvents = () => {

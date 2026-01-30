@@ -1,6 +1,6 @@
 import React from "react";
 import { getData } from "../context/userContext";
-import API from '../src/api/axios.js';
+import API from '../api/axios.js';
 
 function Profile() {
     const { user } = getData();

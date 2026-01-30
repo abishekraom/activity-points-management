@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
-import API from '../src/api/axios.js';
+import API from '../api/axios.js';
 import { Search, Calendar, Check, X, ChevronLeft } from "lucide-react";
 
 function Submissions() {
