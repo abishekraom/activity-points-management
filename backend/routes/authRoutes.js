@@ -26,7 +26,8 @@ router.get("/google/callback", passport.authenticate("google", {session: false})
             secure: true, 
             sameSite: 'None', 
             maxAge: 30 * 24 * 60 * 60 * 1000,
-            path: '/'
+            path: '/',
+            partitioned: true,
         });
 
         console.log("Cookie attached to response. Redirecting to:", process.env.CLIENT_URL);
