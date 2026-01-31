@@ -2,7 +2,7 @@ import React from 'react';
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getData } from '../context/userContext.jsx';
-import API from '../src/api/axios.js';
+import API from '../api/axios.js';
 
 function NavigationBar() {
   const navigate = useNavigate();

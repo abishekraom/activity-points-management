@@ -1,6 +1,6 @@
 import React from "react";
 import { createContext, useState, useEffect, useContext } from "react";
-import API from '../src/api/axios.js';
+import API from '../api/axios.js';
 
 const EventContext = createContext();
 
