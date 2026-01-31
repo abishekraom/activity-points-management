@@ -25,6 +25,13 @@ app.use(cors({
 
 app.use(express.json());
 app.use(cookieParser());
+app.use((req, res, next) => {
+    console.log(`[DEBUG] Incoming Request: ${req.method} ${req.url}`);
+    console.log(`[DEBUG] Origin Header: ${req.headers.origin}`);
+    console.log(`[DEBUG] Cookies received:`, req.cookies); 
+    next();
+});
+
 app.use("/api/auth", authRouter );
 app.use("/api/users", authRouter);
 app.use('/api/admin', adminRoutes);
