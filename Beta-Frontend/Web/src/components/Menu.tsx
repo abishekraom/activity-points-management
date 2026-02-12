@@ -177,9 +177,10 @@ const GooeyNav: React.FC<GooeyNavProps> = ({
           .effect.filter::before {
             content: "";
             position: absolute;
-            inset: -75px;
+            inset: -20px;
             z-index: -2;
-            background: transparent;
+            background: black;
+            opacity: 0.6;
           }
           .effect.filter::after {
             content: "";
